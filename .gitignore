@@ -1,0 +1,37 @@
+# Monorepo-level ignores. Cada subproyecto tiene su propio .gitignore
+# con las exclusiones específicas de su stack.
+
+# macOS / editores
+.DS_Store
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.iml
+
+# Entornos y secretos (nunca deben subirse)
+.env
+.env.*
+*.env
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+secrets.json
+
+# Vercel
+.vercel/
+
+# Archivos locales de Claude Code / herramientas de IA
+.claude/
+
+# Capturas y archivos temporales de trabajo local
+screenshots/
+tmp/
+.cache/
+*.local
+*.log
+*.swp
+*.swo
