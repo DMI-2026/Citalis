@@ -1,372 +1,350 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mxfile host="app.diagrams.net" version="24.0.0" type="device">
   <diagram name="Citalis · Modelo de datos" id="citalis-er">
-    <mxGraphModel dx="1800" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="1600" math="0" shadow="0">
+    <mxGraphModel dx="2200" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="1300" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-
-        <!-- ================= TÍTULO ================= -->
+        <!-- 1) TÍTULOS (fondo) -->
         <mxCell id="title" value="Citalis · Modelo entidad-relación" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=28;fontFamily=Georgia;fontColor=#0F0F0F;fontStyle=0" vertex="1" parent="1">
           <mxGeometry x="40" y="20" width="900" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" value="PostgreSQL · UUIDs · soft delete · 15 entidades agrupadas por dominio" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontFamily=Inter;fontColor=#78716C" vertex="1" parent="1">
-          <mxGeometry x="40" y="55" width="900" height="24" as="geometry" />
+        <mxCell id="subtitle" value="PostgreSQL · derivado del modelo Flutter: Business, Service, Reservation, UserProfile, DayHours, MyBusiness, NotificationSettings, ClientLink" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontFamily=Inter;fontColor=#78716C" vertex="1" parent="1">
+          <mxGeometry x="40" y="56" width="1200" height="22" as="geometry" />
         </mxCell>
-
-        <!-- ================= LEYENDA ================= -->
-        <mxCell id="legend_box" value="" style="rounded=1;fillColor=#FFFFFF;strokeColor=#E7E5E4;shadow=0;" vertex="1" parent="1">
-          <mxGeometry x="1540" y="20" width="620" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="legend_title" value="LEYENDA DE DOMINIOS" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontFamily=Inter;fontColor=#78716C;fontStyle=1" vertex="1" parent="1">
-          <mxGeometry x="1560" y="28" width="300" height="16" as="geometry" />
-        </mxCell>
-        <mxCell id="legend_1" value="Cuenta" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0F0F0F;strokeColor=#0F0F0F;fontColor=#FFFFFF;fontFamily=Inter;fontSize=11;" vertex="1" parent="1">
-          <mxGeometry x="1560" y="52" width="86" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="legend_2" value="Negocio" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A5D45;strokeColor=#4A5D45;fontColor=#FFFFFF;fontFamily=Inter;fontSize=11;" vertex="1" parent="1">
-          <mxGeometry x="1654" y="52" width="86" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="legend_3" value="Transacciones" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#1E3A5F;fontColor=#FFFFFF;fontFamily=Inter;fontSize=11;" vertex="1" parent="1">
-          <mxGeometry x="1748" y="52" width="110" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="legend_4" value="Notif." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#B45309;strokeColor=#B45309;fontColor=#FFFFFF;fontFamily=Inter;fontSize=11;" vertex="1" parent="1">
-          <mxGeometry x="1866" y="52" width="70" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="legend_5" value="Catálogos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#B8956A;strokeColor=#B8956A;fontColor=#FFFFFF;fontFamily=Inter;fontSize=11;" vertex="1" parent="1">
-          <mxGeometry x="1944" y="52" width="90" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="legend_6" value="Auditoría" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#78716C;strokeColor=#78716C;fontColor=#FFFFFF;fontFamily=Inter;fontSize=11;" vertex="1" parent="1">
-          <mxGeometry x="2042" y="52" width="90" height="30" as="geometry" />
-        </mxCell>
-
-        <!-- ================= DOMINIO: CUENTA ================= -->
+        <!-- 2) CLUSTERS DE DOMINIO (fondo, decorativos) -->
         <mxCell id="cluster_cuenta" value="CUENTA Y SEGURIDAD" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#0F0F0F;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#0F0F0F;fontStyle=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;" vertex="1" parent="1">
-          <mxGeometry x="40" y="120" width="320" height="620" as="geometry" />
+          <mxGeometry x="40" y="120" width="320" height="640" as="geometry" />
+        </mxCell>
+        <mxCell id="cluster_negocio" value="NEGOCIO Y SERVICIOS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#4A5D45;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#4A5D45;fontStyle=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="400" y="120" width="680" height="780" as="geometry" />
+        </mxCell>
+        <mxCell id="cluster_tx" value="RESERVAS Y SEGUIMIENTO" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#1E3A5F;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#1E3A5F;fontStyle=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="120" width="700" height="760" as="geometry" />
+        </mxCell>
+        <mxCell id="cluster_cat" value="CATÁLOGOS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#B8956A;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#B8956A;fontStyle=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="800" width="320" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="cluster_audit" value="AUDITORÍA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#78716C;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#78716C;fontStyle=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="400" y="920" width="320" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="cluster_views" value="VISTAS DERIVADAS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#78716C;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#78716C;fontStyle=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="900" width="700" height="200" as="geometry" />
+        </mxCell>
+        <!-- 3) EDGES — van ANTES que las entidades para que queden detrás -->
+        <!-- users 1 — 0..1 businesses · Flutter: AppState.myBusiness (nullable) -->
+        <mxCell id="e_users_biz" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;strokeColor=#0F0F0F;strokeWidth=2;startArrow=ERone;endArrow=ERoneToMany;fontSize=10;fontFamily=Inter;fontColor=#0F0F0F;" edge="1" parent="1" source="t_users" target="t_businesses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_users_biz_lbl" value="owner (1:0..1)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Inter;fontColor=#0F0F0F;" vertex="1" connectable="0" parent="e_users_biz">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
         </mxCell>
 
-        <mxCell id="t_users" value="users" style="shape=table;startSize=36;container=1;collapsible=0;childLayout=tableLayout;fontSize=14;fontFamily=Inter;fontStyle=1;fillColor=#0F0F0F;strokeColor=#0F0F0F;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="60" y="150" width="280" height="246" as="geometry" />
+        <!-- users 1 — 1 notification_preferences · Flutter: AppState.notifications -->
+        <mxCell id="e_users_prefs" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.6;exitY=1;entryX=0.6;entryY=0;strokeColor=#B45309;strokeWidth=2;startArrow=ERone;endArrow=ERone;" edge="1" parent="1" source="t_users" target="t_notif_prefs">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="t_users_r1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=#FFFFFF;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;fontFamily=Inter;" vertex="1" parent="t_users">
-          <mxGeometry y="36" width="280" height="30" as="geometry" />
+
+        <!-- users 1 — N notification_tokens -->
+        <mxCell id="e_users_tokens" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0;exitY=0.9;entryX=0;entryY=0.5;strokeColor=#B45309;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_users" target="t_notif_tokens">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="30" y="370" />
+              <mxPoint x="30" y="680" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="t_users_r1c1" value="PK" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=11;fontStyle=1;fontColor=#B8956A;" vertex="1" parent="t_users_r1">
-          <mxGeometry width="40" height="30" as="geometry" />
+
+        <!-- businesses 1 — N services · Flutter: MyBusiness.services -->
+        <mxCell id="e_biz_services" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.15;entryX=0;entryY=0.3;strokeColor=#4A5D45;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_businesses" target="t_services">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="t_users_r1c2" value="id · uuid" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=12;fontColor=#0F0F0F;align=left;spacingLeft=6;" vertex="1" parent="t_users_r1">
-          <mxGeometry x="40" width="240" height="30" as="geometry" />
+
+        <!-- businesses 1 — N business_images · Flutter: Business.gallery -->
+        <mxCell id="e_biz_images" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.55;entryX=0;entryY=0.5;strokeColor=#4A5D45;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_businesses" target="t_business_images">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="t_users_r2" value="" style="shape=tableRow;horizontal=0;startSize=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=#FFFFFF;fontSize=12;fontFamily=Inter;" vertex="1" parent="t_users">
-          <mxGeometry y="66" width="280" height="30" as="geometry" />
+
+        <!-- businesses 1 — 7 business_hours · Flutter: MyBusiness.weeklyHours (7 DayHours) -->
+        <mxCell id="e_biz_hours" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.3;exitY=1;entryX=0.5;entryY=0;strokeColor=#4A5D45;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_businesses" target="t_business_hours">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="t_users_r2c1" value="UK" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;fontSize=11;fontStyle=1;fontColor=#4A5D45;" vertex="1" parent="t_users_r2">
-          <mxGeometry width="40" height="30" as="geometry" />
+
+        <!-- businesses 1 — N business_hour_exceptions · Req 3.1 "periodos no disponibles" -->
+        <mxCell id="e_biz_hourexc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.9;entryX=0;entryY=0.3;strokeColor=#4A5D45;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_businesses" target="t_hour_exc">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="t_users_r2c2" value="email · citext" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;fontSize=12;fontColor=#0F0F0F;align=left;spacingLeft=6;" vertex="1" parent="t_users_r2">
-          <mxGeometry x="40" width="240" height="30" as="geometry" />
+
+        <!-- businesses 1 — N reservations · Flutter: AppState.businessReservations() -->
+        <mxCell id="e_biz_res" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.4;entryX=0;entryY=0.3;strokeColor=#1E3A5F;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_businesses" target="t_reservations">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="t_users_r3" value="" style="shape=tableRow;horizontal=0;startSize=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=#FFFFFF;fontSize=12;fontFamily=Inter;" vertex="1" parent="t_users">
-          <mxGeometry y="96" width="280" height="30" as="geometry" />
+
+        <!-- services 1 — N reservations · Flutter: Reservation.service -->
+        <mxCell id="e_svc_res" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.3;entryX=0;entryY=0.15;strokeColor=#1E3A5F;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_services" target="t_reservations">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="t_users_r3c1" value="UK" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;fontSize=11;fontStyle=1;fontColor=#4A5D45;" vertex="1" parent="t_users_r3">
-          <mxGeometry width="40" height="30" as="geometry" />
+
+        <!-- users 1 — N reservations (como cliente) · Flutter: AppState.upcoming / history -->
+        <mxCell id="e_users_res" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.75;strokeColor=#1E3A5F;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_users" target="t_reservations">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="290" />
+              <mxPoint x="380" y="420" />
+              <mxPoint x="1080" y="420" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="t_users_r3c2" value="firebase_uid · varchar" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;fontSize=12;fontColor=#0F0F0F;align=left;spacingLeft=6;" vertex="1" parent="t_users_r3">
-          <mxGeometry x="40" width="240" height="30" as="geometry" />
+        <mxCell id="e_users_res_lbl" value="client" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontFamily=Inter;fontColor=#1E3A5F;" vertex="1" connectable="0" parent="e_users_res">
+          <mxGeometry x="-0.3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
         </mxCell>
-        <mxCell id="t_users_r4" value="" style="shape=tableRow;horizontal=0;startSize=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=#FFFFFF;fontSize=12;fontFamily=Inter;" vertex="1" parent="t_users">
-          <mxGeometry y="126" width="280" height="30" as="geometry" />
+
+        <!-- reservations 1 — 0..1 ratings · Req 4.3 -->
+        <mxCell id="e_res_ratings" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#1E3A5F;strokeWidth=2;startArrow=ERone;endArrow=ERoneToMany;" edge="1" parent="1" source="t_reservations" target="t_ratings">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="t_users_r4c1" value="" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;" vertex="1" parent="t_users_r4">
-          <mxGeometry width="40" height="30" as="geometry" />
+
+        <!-- users 1 — N favorites · Flutter: AppState.favorites (Set<String>) -->
+        <mxCell id="e_users_fav" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.1;entryX=0;entryY=0.5;strokeColor=#1E3A5F;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_users" target="t_favorites">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="170" />
+              <mxPoint x="1450" y="170" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="t_users_r4c2" value="name · varchar(120)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;fontSize=12;fontColor=#0F0F0F;align=left;spacingLeft=6;" vertex="1" parent="t_users_r4">
-          <mxGeometry x="40" width="240" height="30" as="geometry" />
+
+        <!-- businesses N — 1 (invertido: 1 business — N favorites) · AppState.favoriteBusinesses -->
+        <mxCell id="e_biz_fav" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.08;entryX=0;entryY=0.7;strokeColor=#1E3A5F;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_businesses" target="t_favorites">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="t_users_r5" value="" style="shape=tableRow;horizontal=0;startSize=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=#FFFFFF;fontSize=12;fontFamily=Inter;" vertex="1" parent="t_users">
-          <mxGeometry y="156" width="280" height="30" as="geometry" />
+
+        <!-- users 1 — N client_business_links · Flutter: ClientLink por cliente -->
+        <mxCell id="e_users_cbl" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.65;entryX=0;entryY=0.5;strokeColor=#1E3A5F;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_users" target="t_cbl">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="330" />
+              <mxPoint x="1450" y="415" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="t_users_r5c1" value="" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;" vertex="1" parent="t_users_r5">
-          <mxGeometry width="40" height="30" as="geometry" />
+
+        <!-- businesses 1 — N client_business_links · Flutter: AppState.businessClients() -->
+        <mxCell id="e_biz_cbl" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.75;entryX=0;entryY=0.3;strokeColor=#1E3A5F;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_businesses" target="t_cbl">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="t_users_r5c2" value="phone · default_city" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;fontSize=12;fontColor=#0F0F0F;align=left;spacingLeft=6;" vertex="1" parent="t_users_r5">
-          <mxGeometry x="40" width="240" height="30" as="geometry" />
+
+        <!-- businesses N — 1 business_categories (soft FK) · businesses.category = catalog slug -->
+        <mxCell id="e_biz_cat" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.3;exitY=1;entryX=0.5;entryY=0;strokeColor=#B8956A;strokeWidth=1;dashed=1;startArrow=ERmany;endArrow=ERone;" edge="1" parent="1" source="t_businesses" target="t_categories">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="510" y="820" />
+              <mxPoint x="200" y="820" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="t_users_r6" value="" style="shape=tableRow;horizontal=0;startSize=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=#FFFFFF;fontSize=12;fontFamily=Inter;" vertex="1" parent="t_users">
-          <mxGeometry y="186" width="280" height="30" as="geometry" />
+
+        <!-- businesses N — 1 municipalities (soft FK) · businesses.municipality -->
+        <mxCell id="e_biz_mun" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.15;exitY=1;entryX=0.5;entryY=0;strokeColor=#B8956A;strokeWidth=1;dashed=1;startArrow=ERmany;endArrow=ERone;" edge="1" parent="1" source="t_businesses" target="t_municipalities">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="465" y="960" />
+              <mxPoint x="200" y="960" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="t_users_r6c1" value="" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;" vertex="1" parent="t_users_r6">
-          <mxGeometry width="40" height="30" as="geometry" />
+
+        <!-- users 1 — N audit_log (dashed, auxiliar) -->
+        <mxCell id="e_users_audit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.9;exitY=1;entryX=0.1;entryY=0;strokeColor=#78716C;strokeWidth=1;dashed=1;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_users" target="t_audit">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="312" y="780" />
+              <mxPoint x="450" y="780" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="t_users_r6c2" value="created_at · updated_at" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;fontSize=11;fontColor=#78716C;align=left;spacingLeft=6;" vertex="1" parent="t_users_r6">
-          <mxGeometry x="40" width="240" height="30" as="geometry" />
+
+        <!-- reservations → v_business_agenda (derivada, dashed) -->
+        <mxCell id="e_res_agenda" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.9;entryX=0.5;entryY=0;strokeColor=#78716C;strokeWidth=1;dashed=1;startArrow=none;endArrow=open;" edge="1" parent="1" source="t_reservations" target="v_agenda">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1620" y="500" />
+              <mxPoint x="1620" y="930" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="t_users_r7" value="" style="shape=tableRow;horizontal=0;startSize=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=#FFFFFF;fontSize=12;fontFamily=Inter;" vertex="1" parent="t_users">
-          <mxGeometry y="216" width="280" height="30" as="geometry" />
+
+        <!-- ratings → v_business_rating (derivada, dashed) -->
+        <mxCell id="e_rat_vrat" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#78716C;strokeWidth=1;dashed=1;startArrow=none;endArrow=open;" edge="1" parent="1" source="t_ratings" target="v_rating">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="t_users_r7c1" value="" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;" vertex="1" parent="t_users_r7">
-          <mxGeometry width="40" height="30" as="geometry" />
+        <!-- 4) ENTIDADES (al frente, tapan los edges) -->
+        <!-- users -->
+        <mxCell id="t_users" value="users" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0F0F0F;strokeColor=#0F0F0F;fontColor=#FFFFFF;fontFamily=Inter;fontSize=14;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="150" width="280" height="240" as="geometry" />
         </mxCell>
-        <mxCell id="t_users_r7c2" value="deleted_at · soft delete" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;fontSize=11;fontColor=#78716C;align=left;spacingLeft=6;fontStyle=2;" vertex="1" parent="t_users_r7">
-          <mxGeometry x="40" width="240" height="30" as="geometry" />
+        <mxCell id="t_users_body" value="&lt;div style='text-align:left; padding:0 14px; line-height:22px;'&gt;&lt;b style='color:#B8956A'&gt;PK&lt;/b&gt;&amp;nbsp;&amp;nbsp;id · uuid&lt;br&gt;&lt;b style='color:#4A5D45'&gt;UK&lt;/b&gt;&amp;nbsp;&amp;nbsp;email · citext&lt;br&gt;&lt;b style='color:#4A5D45'&gt;UK&lt;/b&gt;&amp;nbsp;&amp;nbsp;firebase_uid&lt;br&gt;name · varchar(120)&lt;br&gt;phone · default_city&lt;br&gt;&lt;span style='color:#A8A29E;font-size:11px'&gt;created_at · updated_at&lt;/span&gt;&lt;br&gt;&lt;span style='color:#A8A29E;font-size:11px;font-style:italic'&gt;deleted_at · soft delete&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="60" y="184" width="280" height="206" as="geometry" />
         </mxCell>
 
         <!-- notification_preferences -->
         <mxCell id="t_notif_prefs" value="notification_preferences" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#B45309;strokeColor=#B45309;fontColor=#FFFFFF;fontFamily=Inter;fontSize=13;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
           <mxGeometry x="60" y="430" width="280" height="140" as="geometry" />
         </mxCell>
-        <mxCell id="t_notif_prefs_body" value="&lt;div style='text-align:left; padding-left:12px; line-height:22px;'&gt;&lt;b style='color:#FBD38D'&gt;PK FK&lt;/b&gt;  user_id &amp;rarr; users&lt;br&gt;reminders · bool&lt;br&gt;promos · bool&lt;br&gt;news · bool&lt;br&gt;&lt;span style='color:#FBD38D;font-size:11px'&gt;updated_at&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="60" y="462" width="280" height="108" as="geometry" />
+        <mxCell id="t_notif_prefs_body" value="&lt;div style='text-align:left; padding:0 14px; line-height:22px;'&gt;&lt;b style='color:#FBD38D'&gt;PK FK&lt;/b&gt;&amp;nbsp;&amp;nbsp;user_id&lt;br&gt;reminders · bool&lt;br&gt;promos · bool&lt;br&gt;news · bool&lt;br&gt;&lt;span style='color:#FDE4C1;font-size:11px'&gt;updated_at&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="60" y="464" width="280" height="106" as="geometry" />
         </mxCell>
 
         <!-- notification_tokens -->
         <mxCell id="t_notif_tokens" value="notification_tokens" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#B45309;strokeColor=#B45309;fontColor=#FFFFFF;fontFamily=Inter;fontSize=13;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
-          <mxGeometry x="60" y="590" width="280" height="140" as="geometry" />
+          <mxGeometry x="60" y="610" width="280" height="140" as="geometry" />
         </mxCell>
-        <mxCell id="t_notif_tokens_body" value="&lt;div style='text-align:left; padding-left:12px; line-height:22px;'&gt;&lt;b style='color:#FBD38D'&gt;PK&lt;/b&gt;  id · uuid&lt;br&gt;&lt;b style='color:#FBD38D'&gt;FK&lt;/b&gt;  user_id &amp;rarr; users&lt;br&gt;platform · enum&lt;br&gt;token · text&lt;br&gt;&lt;span style='color:#FBD38D;font-size:11px'&gt;last_used_at&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="60" y="622" width="280" height="108" as="geometry" />
-        </mxCell>
-
-        <!-- ================= DOMINIO: NEGOCIO ================= -->
-        <mxCell id="cluster_negocio" value="NEGOCIO Y SERVICIOS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#4A5D45;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#4A5D45;fontStyle=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;" vertex="1" parent="1">
-          <mxGeometry x="400" y="120" width="640" height="760" as="geometry" />
+        <mxCell id="t_notif_tokens_body" value="&lt;div style='text-align:left; padding:0 14px; line-height:22px;'&gt;&lt;b style='color:#FBD38D'&gt;PK&lt;/b&gt;&amp;nbsp;&amp;nbsp;id · uuid&lt;br&gt;&lt;b style='color:#FBD38D'&gt;FK&lt;/b&gt;&amp;nbsp;&amp;nbsp;user_id&lt;br&gt;platform · enum&lt;br&gt;token · text&lt;br&gt;&lt;span style='color:#FDE4C1;font-size:11px'&gt;last_used_at&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="60" y="644" width="280" height="106" as="geometry" />
         </mxCell>
 
         <!-- businesses -->
         <mxCell id="t_businesses" value="businesses" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A5D45;strokeColor=#4A5D45;fontColor=#FFFFFF;fontFamily=Inter;fontSize=14;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
           <mxGeometry x="420" y="150" width="300" height="340" as="geometry" />
         </mxCell>
-        <mxCell id="t_businesses_body" value="&lt;div style='text-align:left; padding-left:14px; line-height:22px;'&gt;&lt;b style='color:#D4E5CA'&gt;PK&lt;/b&gt;  id · uuid&lt;br&gt;&lt;b style='color:#D4E5CA'&gt;FK UK&lt;/b&gt;  owner_id &amp;rarr; users&lt;br&gt;name · category · phone&lt;br&gt;description · text&lt;br&gt;address · municipality&lt;br&gt;hero_image_url · text&lt;br&gt;&lt;b style='color:#D4E5CA'&gt;UK&lt;/b&gt;  deep_link_code (QR)&lt;br&gt;latitude · longitude&lt;br&gt;is_active · bool&lt;br&gt;&lt;span style='color:#D4E5CA;font-size:11px'&gt;created_at · updated_at&lt;/span&gt;&lt;br&gt;&lt;span style='color:#D4E5CA;font-size:11px;font-style:italic'&gt;deleted_at · soft delete&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
+        <mxCell id="t_businesses_body" value="&lt;div style='text-align:left; padding:0 14px; line-height:22px;'&gt;&lt;b style='color:#D4E5CA'&gt;PK&lt;/b&gt;&amp;nbsp;&amp;nbsp;id · uuid&lt;br&gt;&lt;b style='color:#D4E5CA'&gt;FK UK&lt;/b&gt;&amp;nbsp;&amp;nbsp;owner_id &amp;rarr; users&lt;br&gt;name · category · phone&lt;br&gt;description · text&lt;br&gt;address · municipality&lt;br&gt;hero_image_url&lt;br&gt;&lt;b style='color:#D4E5CA'&gt;UK&lt;/b&gt;&amp;nbsp;&amp;nbsp;deep_link_code (QR)&lt;br&gt;latitude · longitude&lt;br&gt;is_active · bool&lt;br&gt;&lt;span style='color:#D4E5CA;font-size:11px'&gt;created_at · updated_at&lt;/span&gt;&lt;br&gt;&lt;span style='color:#D4E5CA;font-size:11px;font-style:italic'&gt;deleted_at · soft delete&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
           <mxGeometry x="420" y="184" width="300" height="306" as="geometry" />
         </mxCell>
 
         <!-- services -->
         <mxCell id="t_services" value="services" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A5D45;strokeColor=#4A5D45;fontColor=#FFFFFF;fontFamily=Inter;fontSize=14;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
-          <mxGeometry x="760" y="150" width="260" height="220" as="geometry" />
+          <mxGeometry x="760" y="150" width="300" height="220" as="geometry" />
         </mxCell>
-        <mxCell id="t_services_body" value="&lt;div style='text-align:left; padding-left:14px; line-height:22px;'&gt;&lt;b style='color:#D4E5CA'&gt;PK&lt;/b&gt;  id · uuid&lt;br&gt;&lt;b style='color:#D4E5CA'&gt;FK&lt;/b&gt;  business_id&lt;br&gt;name · varchar(120)&lt;br&gt;description · text&lt;br&gt;duration_minutes · int&lt;br&gt;price · numeric(10,2)&lt;br&gt;is_active · bool&lt;br&gt;&lt;span style='color:#D4E5CA;font-size:11px'&gt;created_at · updated_at&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="760" y="184" width="260" height="186" as="geometry" />
+        <mxCell id="t_services_body" value="&lt;div style='text-align:left; padding:0 14px; line-height:22px;'&gt;&lt;b style='color:#D4E5CA'&gt;PK&lt;/b&gt;&amp;nbsp;&amp;nbsp;id · uuid&lt;br&gt;&lt;b style='color:#D4E5CA'&gt;FK&lt;/b&gt;&amp;nbsp;&amp;nbsp;business_id&lt;br&gt;name · varchar(120)&lt;br&gt;description · text&lt;br&gt;duration_minutes · int&lt;br&gt;price · numeric(10,2)&lt;br&gt;is_active · bool&lt;br&gt;&lt;span style='color:#D4E5CA;font-size:11px'&gt;timestamps&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="760" y="184" width="300" height="186" as="geometry" />
         </mxCell>
 
         <!-- business_images -->
-        <mxCell id="t_business_images" value="business_images" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A5D45;strokeColor=#4A5D45;fontColor=#FFFFFF;fontFamily=Inter;fontSize=14;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
-          <mxGeometry x="760" y="400" width="260" height="150" as="geometry" />
+        <mxCell id="t_business_images" value="business_images" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A5D45;strokeColor=#4A5D45;fontColor=#FFFFFF;fontFamily=Inter;fontSize=13;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="760" y="400" width="300" height="140" as="geometry" />
         </mxCell>
-        <mxCell id="t_business_images_body" value="&lt;div style='text-align:left; padding-left:14px; line-height:22px;'&gt;&lt;b style='color:#D4E5CA'&gt;PK&lt;/b&gt;  id · uuid&lt;br&gt;&lt;b style='color:#D4E5CA'&gt;FK&lt;/b&gt;  business_id&lt;br&gt;url · text&lt;br&gt;position · smallint&lt;br&gt;&lt;span style='color:#D4E5CA;font-size:11px'&gt;created_at&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="760" y="434" width="260" height="116" as="geometry" />
+        <mxCell id="t_business_images_body" value="&lt;div style='text-align:left; padding:0 14px; line-height:22px;'&gt;&lt;b style='color:#D4E5CA'&gt;PK&lt;/b&gt;&amp;nbsp;&amp;nbsp;id · uuid&lt;br&gt;&lt;b style='color:#D4E5CA'&gt;FK&lt;/b&gt;&amp;nbsp;&amp;nbsp;business_id&lt;br&gt;url · text&lt;br&gt;position · smallint&lt;br&gt;&lt;span style='color:#D4E5CA;font-size:11px'&gt;Flutter: Business.gallery&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="760" y="434" width="300" height="106" as="geometry" />
         </mxCell>
 
         <!-- business_hours -->
-        <mxCell id="t_business_hours" value="business_hours" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A5D45;strokeColor=#4A5D45;fontColor=#FFFFFF;fontFamily=Inter;fontSize=14;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
-          <mxGeometry x="420" y="520" width="300" height="180" as="geometry" />
+        <mxCell id="t_business_hours" value="business_hours" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A5D45;strokeColor=#4A5D45;fontColor=#FFFFFF;fontFamily=Inter;fontSize=13;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="420" y="560" width="300" height="170" as="geometry" />
         </mxCell>
-        <mxCell id="t_business_hours_body" value="&lt;div style='text-align:left; padding-left:14px; line-height:22px;'&gt;&lt;b style='color:#D4E5CA'&gt;PK&lt;/b&gt;  id · uuid&lt;br&gt;&lt;b style='color:#D4E5CA'&gt;FK UK&lt;/b&gt;  business_id + day_of_week&lt;br&gt;day_of_week · smallint (0..6)&lt;br&gt;is_open · bool&lt;br&gt;open_time · close_time · time&lt;br&gt;&lt;span style='color:#D4E5CA;font-size:11px;font-style:italic'&gt;Req 3.1 horarios semanales&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="420" y="554" width="300" height="146" as="geometry" />
+        <mxCell id="t_business_hours_body" value="&lt;div style='text-align:left; padding:0 14px; line-height:22px;'&gt;&lt;b style='color:#D4E5CA'&gt;PK&lt;/b&gt;&amp;nbsp;&amp;nbsp;id · uuid&lt;br&gt;&lt;b style='color:#D4E5CA'&gt;FK UK&lt;/b&gt;&amp;nbsp;&amp;nbsp;(business_id, day_of_week)&lt;br&gt;day_of_week · 0..6&lt;br&gt;is_open · bool&lt;br&gt;open_time · close_time&lt;br&gt;&lt;span style='color:#D4E5CA;font-size:11px;font-style:italic'&gt;Flutter: MyBusiness.weeklyHours (7)&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="420" y="594" width="300" height="136" as="geometry" />
         </mxCell>
 
         <!-- business_hour_exceptions -->
         <mxCell id="t_hour_exc" value="business_hour_exceptions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A5D45;strokeColor=#4A5D45;fontColor=#FFFFFF;fontFamily=Inter;fontSize=13;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
-          <mxGeometry x="420" y="720" width="300" height="150" as="geometry" />
+          <mxGeometry x="760" y="590" width="300" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="t_hour_exc_body" value="&lt;div style='text-align:left; padding-left:14px; line-height:22px;'&gt;&lt;b style='color:#D4E5CA'&gt;PK&lt;/b&gt;  id · uuid&lt;br&gt;&lt;b style='color:#D4E5CA'&gt;FK UK&lt;/b&gt;  business_id + date&lt;br&gt;is_closed · bool&lt;br&gt;open_time · close_time&lt;br&gt;reason · varchar(240)&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="420" y="754" width="300" height="116" as="geometry" />
-        </mxCell>
-
-        <!-- ================= DOMINIO: TRANSACCIONES ================= -->
-        <mxCell id="cluster_tx" value="RESERVAS Y SEGUIMIENTO" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#1E3A5F;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#1E3A5F;fontStyle=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;" vertex="1" parent="1">
-          <mxGeometry x="1080" y="120" width="700" height="760" as="geometry" />
+        <mxCell id="t_hour_exc_body" value="&lt;div style='text-align:left; padding:0 14px; line-height:22px;'&gt;&lt;b style='color:#D4E5CA'&gt;PK&lt;/b&gt;&amp;nbsp;&amp;nbsp;id · uuid&lt;br&gt;&lt;b style='color:#D4E5CA'&gt;FK UK&lt;/b&gt;&amp;nbsp;&amp;nbsp;(business_id, date)&lt;br&gt;is_closed · bool&lt;br&gt;open_time · close_time&lt;br&gt;reason · varchar(240)&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="760" y="624" width="300" height="116" as="geometry" />
         </mxCell>
 
         <!-- reservations -->
         <mxCell id="t_reservations" value="reservations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#1E3A5F;fontColor=#FFFFFF;fontFamily=Inter;fontSize=14;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
-          <mxGeometry x="1100" y="150" width="320" height="360" as="geometry" />
+          <mxGeometry x="1120" y="150" width="320" height="360" as="geometry" />
         </mxCell>
-        <mxCell id="t_reservations_body" value="&lt;div style='text-align:left; padding-left:14px; line-height:22px;'&gt;&lt;b style='color:#A0C4FF'&gt;PK&lt;/b&gt;  id · uuid&lt;br&gt;&lt;b style='color:#A0C4FF'&gt;FK&lt;/b&gt;  business_id&lt;br&gt;&lt;b style='color:#A0C4FF'&gt;FK&lt;/b&gt;  service_id&lt;br&gt;&lt;b style='color:#A0C4FF'&gt;FK&lt;/b&gt;  client_id &amp;rarr; users&lt;br&gt;scheduled_at · timestamptz&lt;br&gt;duration_minutes · int (snapshot)&lt;br&gt;price_at_booking · numeric (snapshot)&lt;br&gt;status · enum&lt;br&gt;notes · text&lt;br&gt;cancelled_at · cancellation_reason&lt;br&gt;&lt;span style='color:#A0C4FF;font-size:11px'&gt;created_at · updated_at&lt;/span&gt;&lt;br&gt;&lt;span style='color:#A0C4FF;font-size:11px;font-style:italic'&gt;EXCLUDE anti-solape por franja&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="1100" y="184" width="320" height="326" as="geometry" />
+        <mxCell id="t_reservations_body" value="&lt;div style='text-align:left; padding:0 14px; line-height:22px;'&gt;&lt;b style='color:#A0C4FF'&gt;PK&lt;/b&gt;&amp;nbsp;&amp;nbsp;id · uuid&lt;br&gt;&lt;b style='color:#A0C4FF'&gt;FK&lt;/b&gt;&amp;nbsp;&amp;nbsp;business_id&lt;br&gt;&lt;b style='color:#A0C4FF'&gt;FK&lt;/b&gt;&amp;nbsp;&amp;nbsp;service_id&lt;br&gt;&lt;b style='color:#A0C4FF'&gt;FK&lt;/b&gt;&amp;nbsp;&amp;nbsp;client_id &amp;rarr; users&lt;br&gt;scheduled_at · timestamptz&lt;br&gt;duration_minutes · snapshot&lt;br&gt;price_at_booking · snapshot&lt;br&gt;status · enum&lt;br&gt;notes · text&lt;br&gt;cancelled_at · reason&lt;br&gt;&lt;span style='color:#A0C4FF;font-size:11px'&gt;timestamps&lt;/span&gt;&lt;br&gt;&lt;span style='color:#A0C4FF;font-size:11px;font-style:italic'&gt;EXCLUDE anti-solape por franja&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="184" width="320" height="326" as="geometry" />
         </mxCell>
 
         <!-- ratings -->
         <mxCell id="t_ratings" value="ratings" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#1E3A5F;fontColor=#FFFFFF;fontFamily=Inter;fontSize=14;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
-          <mxGeometry x="1100" y="540" width="320" height="180" as="geometry" />
+          <mxGeometry x="1120" y="560" width="320" height="170" as="geometry" />
         </mxCell>
-        <mxCell id="t_ratings_body" value="&lt;div style='text-align:left; padding-left:14px; line-height:22px;'&gt;&lt;b style='color:#A0C4FF'&gt;PK FK&lt;/b&gt;  reservation_id&lt;br&gt;&lt;b style='color:#A0C4FF'&gt;FK&lt;/b&gt;  business_id · client_id&lt;br&gt;rating · smallint (1..5)&lt;br&gt;comment · text&lt;br&gt;&lt;span style='color:#A0C4FF;font-size:11px'&gt;created_at&lt;/span&gt;&lt;br&gt;&lt;span style='color:#A0C4FF;font-size:11px;font-style:italic'&gt;Req 4.3 · solo si reserva completada&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="1100" y="574" width="320" height="146" as="geometry" />
+        <mxCell id="t_ratings_body" value="&lt;div style='text-align:left; padding:0 14px; line-height:22px;'&gt;&lt;b style='color:#A0C4FF'&gt;PK FK&lt;/b&gt;&amp;nbsp;&amp;nbsp;reservation_id&lt;br&gt;&lt;b style='color:#A0C4FF'&gt;FK&lt;/b&gt;&amp;nbsp;&amp;nbsp;business_id · client_id&lt;br&gt;rating · 1..5&lt;br&gt;comment · text&lt;br&gt;&lt;span style='color:#A0C4FF;font-size:11px'&gt;created_at&lt;/span&gt;&lt;br&gt;&lt;span style='color:#A0C4FF;font-size:11px;font-style:italic'&gt;Req 4.3 · solo si reserva completada&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="594" width="320" height="136" as="geometry" />
         </mxCell>
 
         <!-- favorites -->
         <mxCell id="t_favorites" value="favorites" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#1E3A5F;fontColor=#FFFFFF;fontFamily=Inter;fontSize=14;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
-          <mxGeometry x="1460" y="150" width="300" height="150" as="geometry" />
+          <mxGeometry x="1480" y="150" width="300" height="140" as="geometry" />
         </mxCell>
-        <mxCell id="t_favorites_body" value="&lt;div style='text-align:left; padding-left:14px; line-height:22px;'&gt;&lt;b style='color:#A0C4FF'&gt;PK FK&lt;/b&gt;  user_id&lt;br&gt;&lt;b style='color:#A0C4FF'&gt;PK FK&lt;/b&gt;  business_id&lt;br&gt;&lt;span style='color:#A0C4FF;font-size:11px'&gt;created_at&lt;/span&gt;&lt;br&gt;&lt;span style='color:#A0C4FF;font-size:11px;font-style:italic'&gt;Guardados en la app&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="1460" y="184" width="300" height="116" as="geometry" />
+        <mxCell id="t_favorites_body" value="&lt;div style='text-align:left; padding:0 14px; line-height:22px;'&gt;&lt;b style='color:#A0C4FF'&gt;PK FK&lt;/b&gt;&amp;nbsp;&amp;nbsp;user_id&lt;br&gt;&lt;b style='color:#A0C4FF'&gt;PK FK&lt;/b&gt;&amp;nbsp;&amp;nbsp;business_id&lt;br&gt;&lt;span style='color:#A0C4FF;font-size:11px'&gt;created_at&lt;/span&gt;&lt;br&gt;&lt;span style='color:#A0C4FF;font-size:11px;font-style:italic'&gt;Flutter: AppState.favorites&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="1480" y="184" width="300" height="106" as="geometry" />
         </mxCell>
 
         <!-- client_business_links -->
         <mxCell id="t_cbl" value="client_business_links" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#1E3A5F;fontColor=#FFFFFF;fontFamily=Inter;fontSize=14;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
-          <mxGeometry x="1460" y="320" width="300" height="220" as="geometry" />
+          <mxGeometry x="1480" y="320" width="300" height="210" as="geometry" />
         </mxCell>
-        <mxCell id="t_cbl_body" value="&lt;div style='text-align:left; padding-left:14px; line-height:22px;'&gt;&lt;b style='color:#A0C4FF'&gt;PK FK&lt;/b&gt;  user_id&lt;br&gt;&lt;b style='color:#A0C4FF'&gt;PK FK&lt;/b&gt;  business_id&lt;br&gt;first_visit_at · timestamptz&lt;br&gt;last_visit_at · timestamptz&lt;br&gt;total_visits · int&lt;br&gt;total_spent · numeric(12,2)&lt;br&gt;&lt;span style='color:#A0C4FF;font-size:11px;font-style:italic'&gt;Req 4.1 · 4.2 vista materializada&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="1460" y="354" width="300" height="186" as="geometry" />
-        </mxCell>
-
-        <!-- ================= DOMINIO: CATÁLOGOS ================= -->
-        <mxCell id="cluster_cat" value="CATÁLOGOS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#B8956A;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#B8956A;fontStyle=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;" vertex="1" parent="1">
-          <mxGeometry x="40" y="770" width="320" height="300" as="geometry" />
+        <mxCell id="t_cbl_body" value="&lt;div style='text-align:left; padding:0 14px; line-height:22px;'&gt;&lt;b style='color:#A0C4FF'&gt;PK FK&lt;/b&gt;&amp;nbsp;&amp;nbsp;user_id&lt;br&gt;&lt;b style='color:#A0C4FF'&gt;PK FK&lt;/b&gt;&amp;nbsp;&amp;nbsp;business_id&lt;br&gt;first_visit_at&lt;br&gt;last_visit_at&lt;br&gt;total_visits · int&lt;br&gt;total_spent · numeric(12,2)&lt;br&gt;&lt;span style='color:#A0C4FF;font-size:11px;font-style:italic'&gt;Flutter: ClientLink · Req 4.1 · 4.2&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="1480" y="354" width="300" height="176" as="geometry" />
         </mxCell>
 
         <!-- business_categories -->
         <mxCell id="t_categories" value="business_categories" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#B8956A;strokeColor=#B8956A;fontColor=#FFFFFF;fontFamily=Inter;fontSize=13;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
-          <mxGeometry x="60" y="800" width="280" height="120" as="geometry" />
+          <mxGeometry x="60" y="830" width="280" height="110" as="geometry" />
         </mxCell>
-        <mxCell id="t_categories_body" value="&lt;div style='text-align:left; padding-left:14px; line-height:22px;'&gt;&lt;b style='color:#F3E5CF'&gt;PK&lt;/b&gt;  slug · varchar(60)&lt;br&gt;display_name · varchar(80)&lt;br&gt;icon_hint · position&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="60" y="834" width="280" height="86" as="geometry" />
+        <mxCell id="t_categories_body" value="&lt;div style='text-align:left; padding:0 14px; line-height:22px;'&gt;&lt;b style='color:#F3E5CF'&gt;PK&lt;/b&gt;&amp;nbsp;&amp;nbsp;slug · varchar(60)&lt;br&gt;display_name · varchar(80)&lt;br&gt;icon_hint · position&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="60" y="864" width="280" height="76" as="geometry" />
         </mxCell>
 
         <!-- municipalities -->
         <mxCell id="t_municipalities" value="municipalities" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#B8956A;strokeColor=#B8956A;fontColor=#FFFFFF;fontFamily=Inter;fontSize=13;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
-          <mxGeometry x="60" y="940" width="280" height="120" as="geometry" />
+          <mxGeometry x="60" y="970" width="280" height="110" as="geometry" />
         </mxCell>
-        <mxCell id="t_municipalities_body" value="&lt;div style='text-align:left; padding-left:14px; line-height:22px;'&gt;&lt;b style='color:#F3E5CF'&gt;PK&lt;/b&gt;  slug · varchar(60)&lt;br&gt;display_name · varchar(80)&lt;br&gt;state · default &apos;Morelos&apos;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="60" y="974" width="280" height="86" as="geometry" />
-        </mxCell>
-
-        <!-- ================= DOMINIO: AUDITORÍA ================= -->
-        <mxCell id="cluster_audit" value="AUDITORÍA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#78716C;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#78716C;fontStyle=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;" vertex="1" parent="1">
-          <mxGeometry x="400" y="910" width="320" height="200" as="geometry" />
+        <mxCell id="t_municipalities_body" value="&lt;div style='text-align:left; padding:0 14px; line-height:22px;'&gt;&lt;b style='color:#F3E5CF'&gt;PK&lt;/b&gt;&amp;nbsp;&amp;nbsp;slug · varchar(60)&lt;br&gt;display_name · varchar(80)&lt;br&gt;state · default 'Morelos'&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="60" y="1004" width="280" height="76" as="geometry" />
         </mxCell>
 
         <!-- audit_log -->
         <mxCell id="t_audit" value="audit_log" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#78716C;strokeColor=#78716C;fontColor=#FFFFFF;fontFamily=Inter;fontSize=13;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
-          <mxGeometry x="420" y="940" width="280" height="150" as="geometry" />
+          <mxGeometry x="420" y="950" width="300" height="140" as="geometry" />
         </mxCell>
-        <mxCell id="t_audit_body" value="&lt;div style='text-align:left; padding-left:14px; line-height:22px;'&gt;&lt;b style='color:#D6D3D1'&gt;PK&lt;/b&gt;  id · bigserial&lt;br&gt;&lt;b style='color:#D6D3D1'&gt;FK&lt;/b&gt;  user_id &amp;rarr; users&lt;br&gt;entity · entity_id&lt;br&gt;action · metadata (jsonb)&lt;br&gt;&lt;span style='color:#D6D3D1;font-size:11px'&gt;created_at&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="420" y="974" width="280" height="116" as="geometry" />
-        </mxCell>
-
-        <!-- ================= VISTAS AUXILIARES ================= -->
-        <mxCell id="cluster_views" value="VISTAS DERIVADAS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#78716C;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#78716C;fontStyle=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;" vertex="1" parent="1">
-          <mxGeometry x="1080" y="920" width="700" height="180" as="geometry" />
-        </mxCell>
-        <mxCell id="v_rating" value="v_business_rating" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#78716C;strokeWidth=1;dashed=0;fontColor=#78716C;fontFamily=Inter;fontSize=13;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
-          <mxGeometry x="1100" y="950" width="320" height="130" as="geometry" />
-        </mxCell>
-        <mxCell id="v_rating_body" value="&lt;div style='text-align:left; padding-left:14px; line-height:22px; color:#44403C;'&gt;business_id&lt;br&gt;reviews_count&lt;br&gt;average_rating&lt;br&gt;&lt;span style='font-size:11px;color:#78716C'&gt;SELECT COUNT, AVG FROM ratings&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;" vertex="1" parent="1">
-          <mxGeometry x="1100" y="984" width="320" height="96" as="geometry" />
-        </mxCell>
-        <mxCell id="v_agenda" value="v_business_agenda" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#78716C;strokeWidth=1;dashed=0;fontColor=#78716C;fontFamily=Inter;fontSize=13;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
-          <mxGeometry x="1460" y="950" width="300" height="130" as="geometry" />
-        </mxCell>
-        <mxCell id="v_agenda_body" value="&lt;div style='text-align:left; padding-left:14px; line-height:22px; color:#44403C;'&gt;scheduled_at · status · price&lt;br&gt;service_name&lt;br&gt;client_name · email · phone&lt;br&gt;&lt;span style='font-size:11px;color:#78716C'&gt;Dashboard agenda del día&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;" vertex="1" parent="1">
-          <mxGeometry x="1460" y="984" width="300" height="96" as="geometry" />
+        <mxCell id="t_audit_body" value="&lt;div style='text-align:left; padding:0 14px; line-height:22px;'&gt;&lt;b style='color:#D6D3D1'&gt;PK&lt;/b&gt;&amp;nbsp;&amp;nbsp;id · bigserial&lt;br&gt;&lt;b style='color:#D6D3D1'&gt;FK&lt;/b&gt;&amp;nbsp;&amp;nbsp;user_id&lt;br&gt;entity · entity_id&lt;br&gt;action · metadata (jsonb)&lt;br&gt;&lt;span style='color:#D6D3D1;font-size:11px'&gt;created_at&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="420" y="984" width="300" height="106" as="geometry" />
         </mxCell>
 
-        <!-- ================= RELACIONES ================= -->
-
-        <!-- users -> businesses (1:1 UK) -->
-        <mxCell id="rel_users_biz" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;strokeColor=#0F0F0F;strokeWidth=2;startArrow=ERone;endArrow=ERone;" edge="1" parent="1" source="t_users" target="t_businesses">
-          <mxGeometry relative="1" as="geometry" />
+        <!-- v_business_rating -->
+        <mxCell id="v_rating" value="v_business_rating" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#78716C;strokeWidth=1;fontColor=#78716C;fontFamily=Inter;fontSize=13;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="930" width="320" height="140" as="geometry" />
         </mxCell>
-        <mxCell id="rel_users_biz_label" value="1 — 1 (opcional)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Inter;fontColor=#0F0F0F;" vertex="1" connectable="0" parent="rel_users_biz">
-          <mxGeometry x="-0.1" relative="1" as="geometry" />
+        <mxCell id="v_rating_body" value="&lt;div style='text-align:left; padding:0 14px; line-height:22px; color:#44403C;'&gt;business_id&lt;br&gt;reviews_count&lt;br&gt;average_rating&lt;br&gt;&lt;span style='font-size:11px; color:#78716C'&gt;SELECT COUNT, AVG FROM ratings&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="964" width="320" height="106" as="geometry" />
         </mxCell>
 
-        <!-- users -> notification_preferences (1:1) -->
-        <mxCell id="rel_users_prefs" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#B45309;strokeWidth=2;startArrow=ERone;endArrow=ERone;" edge="1" parent="1" source="t_users" target="t_notif_prefs">
-          <mxGeometry relative="1" as="geometry" />
+        <!-- v_business_agenda -->
+        <mxCell id="v_agenda" value="v_business_agenda" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#78716C;strokeWidth=1;fontColor=#78716C;fontFamily=Inter;fontSize=13;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="1480" y="930" width="300" height="140" as="geometry" />
         </mxCell>
-
-        <!-- users -> notification_tokens (1:N) -->
-        <mxCell id="rel_users_tokens" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.3;exitY=1;entryX=0.3;entryY=0;strokeColor=#B45309;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_users" target="t_notif_tokens">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="v_agenda_body" value="&lt;div style='text-align:left; padding:0 14px; line-height:22px; color:#44403C;'&gt;scheduled_at · status · price&lt;br&gt;service_name&lt;br&gt;client_name · email · phone&lt;br&gt;&lt;span style='font-size:11px; color:#78716C'&gt;Dashboard · agenda del día&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontFamily=Inter;" vertex="1" parent="1">
+          <mxGeometry x="1480" y="964" width="300" height="106" as="geometry" />
         </mxCell>
-
-        <!-- businesses -> services (1:N) -->
-        <mxCell id="rel_biz_services" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.2;entryX=0;entryY=0.2;strokeColor=#4A5D45;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_businesses" target="t_services">
-          <mxGeometry relative="1" as="geometry" />
+        <!-- 5) LEYENDA (al frente) -->
+        <mxCell id="legend_box" value="" style="rounded=1;fillColor=#FFFFFF;strokeColor=#E7E5E4;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1830" y="150" width="340" height="330" as="geometry" />
         </mxCell>
-
-        <!-- businesses -> business_images (1:N) -->
-        <mxCell id="rel_biz_images" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.7;entryX=0;entryY=0.3;strokeColor=#4A5D45;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_businesses" target="t_business_images">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="legend_title" value="LEYENDA DE DOMINIOS" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontFamily=Inter;fontColor=#78716C;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1850" y="162" width="300" height="18" as="geometry" />
         </mxCell>
-
-        <!-- businesses -> business_hours (1:N) -->
-        <mxCell id="rel_biz_hours" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#4A5D45;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_businesses" target="t_business_hours">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="legend_1" value="Cuenta y seguridad" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0F0F0F;strokeColor=#0F0F0F;fontColor=#FFFFFF;fontFamily=Inter;fontSize=11;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="1850" y="190" width="300" height="32" as="geometry" />
         </mxCell>
-
-        <!-- business_hours -> business_hour_exceptions (lógica, no FK directa) -->
-        <mxCell id="rel_hours_exc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#4A5D45;strokeWidth=1;dashed=1;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_business_hours" target="t_hour_exc">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="legend_2" value="Negocio y servicios" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A5D45;strokeColor=#4A5D45;fontColor=#FFFFFF;fontFamily=Inter;fontSize=11;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="1850" y="226" width="300" height="32" as="geometry" />
         </mxCell>
-
-        <!-- businesses -> reservations (1:N) -->
-        <mxCell id="rel_biz_res" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.4;entryX=0;entryY=0.4;strokeColor=#1E3A5F;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_businesses" target="t_reservations">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="legend_3" value="Reservas y seguimiento" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A5F;strokeColor=#1E3A5F;fontColor=#FFFFFF;fontFamily=Inter;fontSize=11;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="1850" y="262" width="300" height="32" as="geometry" />
         </mxCell>
-
-        <!-- services -> reservations (1:N) -->
-        <mxCell id="rel_svc_res" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.2;strokeColor=#1E3A5F;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_services" target="t_reservations">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="legend_4" value="Notificaciones" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#B45309;strokeColor=#B45309;fontColor=#FFFFFF;fontFamily=Inter;fontSize=11;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="1850" y="298" width="300" height="32" as="geometry" />
         </mxCell>
-
-        <!-- users -> reservations (1:N) -->
-        <mxCell id="rel_users_res" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.1;entryX=0;entryY=0.6;strokeColor=#1E3A5F;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_users" target="t_reservations">
-          <mxGeometry relative="1" as="geometry" />
-          <Array as="points">
-            <mxPoint x="1060" y="310" />
-          </Array>
+        <mxCell id="legend_5" value="Catálogos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#B8956A;strokeColor=#B8956A;fontColor=#FFFFFF;fontFamily=Inter;fontSize=11;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="1850" y="334" width="300" height="32" as="geometry" />
         </mxCell>
-
-        <!-- reservations -> ratings (1:1) -->
-        <mxCell id="rel_res_ratings" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#1E3A5F;strokeWidth=2;startArrow=ERone;endArrow=ERone;" edge="1" parent="1" source="t_reservations" target="t_ratings">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="legend_6" value="Auditoría y vistas derivadas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#78716C;strokeColor=#78716C;fontColor=#FFFFFF;fontFamily=Inter;fontSize=11;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="1850" y="370" width="300" height="32" as="geometry" />
         </mxCell>
-
-        <!-- users -> favorites (1:N) -->
-        <mxCell id="rel_users_fav" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.15;entryX=0;entryY=0.5;strokeColor=#1E3A5F;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_users" target="t_favorites">
-          <mxGeometry relative="1" as="geometry" />
-          <Array as="points">
-            <mxPoint x="1380" y="200" />
-          </Array>
-        </mxCell>
-
-        <!-- businesses -> favorites (1:N) -->
-        <mxCell id="rel_biz_fav" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.1;entryX=0;entryY=0.8;strokeColor=#1E3A5F;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_businesses" target="t_favorites">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-
-        <!-- users -> client_business_links (1:N) -->
-        <mxCell id="rel_users_cbl" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.3;strokeColor=#1E3A5F;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_users" target="t_cbl">
-          <mxGeometry relative="1" as="geometry" />
-          <Array as="points">
-            <mxPoint x="1420" y="420" />
-          </Array>
-        </mxCell>
-
-        <!-- businesses -> client_business_links -->
-        <mxCell id="rel_biz_cbl" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.6;entryX=0;entryY=0.5;strokeColor=#1E3A5F;strokeWidth=2;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_businesses" target="t_cbl">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-
-        <!-- businesses -> categories (soft FK) -->
-        <mxCell id="rel_biz_cat" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0;exitY=0.8;entryX=1;entryY=0.4;strokeColor=#B8956A;strokeWidth=1;dashed=1;startArrow=ERmany;endArrow=ERone;" edge="1" parent="1" source="t_businesses" target="t_categories">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-
-        <!-- businesses -> municipalities (soft FK) -->
-        <mxCell id="rel_biz_mun" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0;exitY=0.9;entryX=1;entryY=0.4;strokeColor=#B8956A;strokeWidth=1;dashed=1;startArrow=ERmany;endArrow=ERone;" edge="1" parent="1" source="t_businesses" target="t_municipalities">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-
-        <!-- users -> audit_log -->
-        <mxCell id="rel_users_audit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#78716C;strokeWidth=1;dashed=1;startArrow=ERone;endArrow=ERmany;" edge="1" parent="1" source="t_users" target="t_audit">
-          <mxGeometry relative="1" as="geometry" />
-          <Array as="points">
-            <mxPoint x="200" y="890" />
-            <mxPoint x="560" y="890" />
-          </Array>
+        <mxCell id="legend_note" value="Línea sólida = FK estricta&#10;Línea discontinua = soft FK o derivada" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=10;fontFamily=Inter;fontColor=#78716C;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="1850" y="418" width="300" height="48" as="geometry" />
         </mxCell>
 
       </root>
