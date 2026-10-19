@@ -1,0 +1,104 @@
+// negocios-service · schema PostgreSQL `negocios`
+// Módulo 2 (Negocio y servicios) + catálogos de categorías y municipios.
+// `owner_id` apunta lógicamente a auth.users.id (otro servicio): NO hay FK física.
+// Extensión pg_trgm (búsqueda por nombre): la crea la migración con CREATE EXTENSION IF NOT EXISTS;
+// Prisma no gestiona extensiones (son globales a la base y generarían drift entre servicios).
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["negocios"]
+}
+
+/// Perfil del negocio. Un usuario es "propietario" cuando aparece como owner_id (HU 2.1).
+model Business {
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  /// auth.users.id — referencia lógica entre servicios. UNIQUE: un negocio por propietario (MVP).
+  ownerId      String    @unique @map("owner_id") @db.Uuid
+  name         String    @db.VarChar(120)
+  /// business_categories.slug
+  category     String    @db.VarChar(60)
+  description  String
+  phone        String    @db.VarChar(20)
+  address      String    @db.VarChar(240)
+  /// municipalities.slug
+  municipality String    @db.VarChar(80)
+  heroImageUrl String?   @map("hero_image_url")
+  /// Código corto e inmutable usado en el QR: https://citalis.app/n/{deep_link_code} (Req 2.5, 3.5).
+  deepLinkCode String    @unique @map("deep_link_code") @db.VarChar(32)
+  latitude     Float?
+  longitude    Float?
+  isActive     Boolean   @default(true) @map("is_active")
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt    DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz()
+  deletedAt    DateTime? @map("deleted_at") @db.Timestamptz()
+
+  images   BusinessImage[]
+  services Service[]
+
+  @@index([category])
+  @@index([municipality])
+  @@index([name(ops: raw("gin_trgm_ops"))], type: Gin)
+  @@map("businesses")
+  @@schema("negocios")
+}
+
+/// Galería de fotos adicionales (Req 2.3).
+model BusinessImage {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  businessId String   @map("business_id") @db.Uuid
+  url        String
+  position   Int      @default(0) @db.SmallInt
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId, position])
+  @@map("business_images")
+  @@schema("negocios")
+}
+
+/// Servicio ofrecido por un negocio (Req 2.4).
+model Service {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  businessId      String   @map("business_id") @db.Uuid
+  name            String   @db.VarChar(120)
+  description     String   @default("")
+  durationMinutes Int      @map("duration_minutes")
+  price           Decimal  @db.Decimal(10, 2)
+  isActive        Boolean  @default(true) @map("is_active")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt       DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz()
+
+  business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+  @@map("services")
+  @@schema("negocios")
+}
+
+/// Catálogo de categorías para selectores consistentes (con datos semilla en la migración).
+model BusinessCategory {
+  slug        String  @id @db.VarChar(60)
+  displayName String  @map("display_name") @db.VarChar(80)
+  iconHint    String? @map("icon_hint") @db.VarChar(60)
+  position    Int     @default(0) @db.SmallInt
+
+  @@map("business_categories")
+  @@schema("negocios")
+}
+
+/// Catálogo de municipios, expandible sin migraciones de código (con datos semilla).
+model Municipality {
+  slug        String @id @db.VarChar(60)
+  displayName String @map("display_name") @db.VarChar(80)
+  state       String @default("Morelos") @db.VarChar(60)
+
+  @@map("municipalities")
+  @@schema("negocios")
+}

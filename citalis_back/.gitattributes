@@ -1,0 +1,7 @@
+# Fuerza LF en el árbol de trabajo (también en Windows con core.autocrlf=true):
+# Prettier/ESLint esperan LF y los scripts .sh/.mjs fallan dentro de contenedores Linux con CRLF.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary

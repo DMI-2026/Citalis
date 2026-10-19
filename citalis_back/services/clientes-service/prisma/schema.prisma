@@ -1,0 +1,44 @@
+// clientes-service · schema PostgreSQL `clientes`
+// Módulo 4 (Clientes y seguimiento). Las referencias a usuarios, negocios y reservas son
+// LÓGICAS (viven en otros servicios): no hay FK física entre schemas.
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["clientes"]
+}
+
+/// Vinculación cliente-negocio, materializada para el dashboard del propietario (Req 4.1).
+/// Se crea/actualiza cuando agenda-service informa una reserva completada.
+model ClientBusinessLink {
+  userId       String   @map("user_id") @db.Uuid
+  businessId   String   @map("business_id") @db.Uuid
+  firstVisitAt DateTime @map("first_visit_at") @db.Timestamptz()
+  lastVisitAt  DateTime @map("last_visit_at") @db.Timestamptz()
+  totalVisits  Int      @default(0) @map("total_visits")
+  totalSpent   Decimal  @default(0) @map("total_spent") @db.Decimal(12, 2)
+
+  @@id([userId, businessId])
+  @@index([businessId, lastVisitAt(sort: Desc)])
+  @@map("client_business_links")
+  @@schema("clientes")
+}
+
+/// Valoración post-cita: una por reserva completada (Req 4.3).
+model Rating {
+  reservationId String   @id @map("reservation_id") @db.Uuid
+  businessId    String   @map("business_id") @db.Uuid
+  clientId      String   @map("client_id") @db.Uuid
+  rating        Int      @db.SmallInt
+  comment       String?
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  @@index([businessId, createdAt(sort: Desc)])
+  @@map("ratings")
+  @@schema("clientes")
+}

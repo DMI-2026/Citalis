@@ -1,0 +1,81 @@
+// agenda-service · schema PostgreSQL `agenda`
+// Módulo 3 (Agenda y reservas). business_id / service_id / client_id son referencias LÓGICAS
+// a negocios.* y auth.users (otros servicios): no hay FK física entre schemas.
+// La protección contra doble reserva (EXCLUDE USING gist), los CHECK y los triggers de
+// updated_at viven en la migración SQL porque Prisma no los puede expresar.
+// Extensión btree_gist (necesaria para el EXCLUDE): la crea la migración con CREATE EXTENSION IF NOT EXISTS;
+// Prisma no gestiona extensiones (son globales a la base y generarían drift entre servicios).
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["agenda"]
+}
+
+enum ReservationStatus {
+  pending
+  confirmed
+  completed
+  cancelled
+  no_show
+
+  @@map("reservation_status")
+  @@schema("agenda")
+}
+
+/// Horario semanal recurrente del negocio, una fila por día (Req 3.1). 0 = lunes.
+model BusinessHour {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  businessId String    @map("business_id") @db.Uuid
+  dayOfWeek  Int       @map("day_of_week") @db.SmallInt
+  isOpen     Boolean   @default(true) @map("is_open")
+  openTime   DateTime? @map("open_time") @db.Time(6)
+  closeTime  DateTime? @map("close_time") @db.Time(6)
+
+  @@unique([businessId, dayOfWeek])
+  @@map("business_hours")
+  @@schema("agenda")
+}
+
+/// Excepciones puntuales que sobreescriben el día: feriado, media jornada, evento.
+model BusinessHourException {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  businessId String    @map("business_id") @db.Uuid
+  date       DateTime  @db.Date
+  isClosed   Boolean   @default(true) @map("is_closed")
+  openTime   DateTime? @map("open_time") @db.Time(6)
+  closeTime  DateTime? @map("close_time") @db.Time(6)
+  reason     String?   @db.VarChar(240)
+
+  @@unique([businessId, date])
+  @@map("business_hour_exceptions")
+  @@schema("agenda")
+}
+
+/// Reserva (Req 3.3 y 3.4). Precio y duración se congelan al reservar (decisión 6 del modelo).
+model Reservation {
+  id                 String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  businessId         String            @map("business_id") @db.Uuid
+  serviceId          String            @map("service_id") @db.Uuid
+  clientId           String            @map("client_id") @db.Uuid
+  scheduledAt        DateTime          @map("scheduled_at") @db.Timestamptz()
+  durationMinutes    Int               @map("duration_minutes")
+  priceAtBooking     Decimal           @map("price_at_booking") @db.Decimal(10, 2)
+  status             ReservationStatus @default(confirmed)
+  notes              String?
+  cancelledAt        DateTime?         @map("cancelled_at") @db.Timestamptz()
+  cancellationReason String?           @map("cancellation_reason") @db.VarChar(240)
+  createdAt          DateTime          @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt          DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz()
+
+  @@index([businessId, scheduledAt])
+  @@index([clientId, scheduledAt(sort: Desc)])
+  @@index([status])
+  @@map("reservations")
+  @@schema("agenda")
+}

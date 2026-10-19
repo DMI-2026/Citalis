@@ -17,6 +17,8 @@ BEGIN;
 -- ---------------------------------------------------------------------------
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";   -- gen_random_uuid()
 CREATE EXTENSION IF NOT EXISTS "citext";     -- correos case-insensitive
+CREATE EXTENSION IF NOT EXISTS "pg_trgm";    -- búsqueda por nombre (índice gin_trgm_ops)
+CREATE EXTENSION IF NOT EXISTS "btree_gist"; -- restricción anti-traslape de reservas
 -- CREATE EXTENSION IF NOT EXISTS "postgis"; -- habilitar cuando se requiera geo real
 
 -- ---------------------------------------------------------------------------
@@ -122,8 +124,6 @@ CREATE TRIGGER trg_businesses_updated BEFORE UPDATE ON businesses
 CREATE INDEX idx_businesses_category ON businesses(category) WHERE deleted_at IS NULL;
 CREATE INDEX idx_businesses_municipality ON businesses(municipality) WHERE deleted_at IS NULL;
 CREATE INDEX idx_businesses_name_trgm ON businesses USING gin (name gin_trgm_ops);  -- búsqueda fuzzy
--- Habilitar la extensión pg_trgm si se usa el índice anterior:
--- CREATE EXTENSION IF NOT EXISTS "pg_trgm";
 
 -- Galería de fotos adicionales (Req 2.3)
 CREATE TABLE business_images (
@@ -210,13 +210,16 @@ CREATE INDEX idx_reservations_business_time ON reservations(business_id, schedul
 CREATE INDEX idx_reservations_client_time   ON reservations(client_id, scheduled_at DESC);
 CREATE INDEX idx_reservations_status        ON reservations(status) WHERE status IN ('pending','confirmed');
 
--- Evita doble reserva en la misma franja para el mismo negocio
--- (requiere btree_gist)
-CREATE EXTENSION IF NOT EXISTS btree_gist;
+-- Evita doble reserva en la misma franja para el mismo negocio (requiere btree_gist).
+-- El rango se calcula en UTC con tsrange: `timestamptz + interval` es STABLE y PostgreSQL exige
+-- expresiones IMMUTABLE en restricciones EXCLUDE (con tstzrange fallaba al aplicar el script).
 ALTER TABLE reservations ADD CONSTRAINT no_overlap_reservations
   EXCLUDE USING gist (
     business_id WITH =,
-    tstzrange(scheduled_at, scheduled_at + (duration_minutes * INTERVAL '1 minute')) WITH &&
+    tsrange(
+      (scheduled_at AT TIME ZONE 'UTC'),
+      (scheduled_at AT TIME ZONE 'UTC') + (duration_minutes * INTERVAL '1 minute')
+    ) WITH &&
   ) WHERE (status IN ('pending','confirmed'));
 
 -- ===========================================================================

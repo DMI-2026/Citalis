@@ -1,0 +1,31 @@
+# ---------------------------------------------------------------------------
+# PostgreSQL local para DESARROLLO (opcional: también puedes apuntar DATABASE_URL a
+# Supabase/Neon). Publica el puerto 5433 para no chocar con un Postgres instalado en 5432.
+#
+#   pnpm db:up        levanta la base         pnpm db:down     la detiene (conserva datos)
+#   pnpm db:reset     la BORRA y la recrea vacía (luego: pnpm db:migrate)
+#
+# Credenciales de desarrollo: coinciden con el DATABASE_URL de .env.example.
+# ---------------------------------------------------------------------------
+name: citalis-db
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: citalis-postgres
+    environment:
+      POSTGRES_USER: citalis
+      POSTGRES_PASSWORD: citalis_dev
+      POSTGRES_DB: citalis
+    ports:
+      - '5433:5432'
+    volumes:
+      - citalis_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U citalis -d citalis']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  citalis_pgdata:

@@ -1,0 +1,38 @@
+{
+  "name": "citalis-backend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Citalis — backend (monorepo NestJS de microservicios)",
+  "scripts": {
+    "dev": "turbo run start:dev --concurrency=12",
+    "build": "turbo run build",
+    "start": "turbo run start:prod --concurrency=12",
+    "lint": "eslint .",
+    "format": "prettier --write \"{commons,gateway,services,scripts}/**/*.{ts,js,mjs,json}\" --ignore-path .gitignore",
+    "format:check": "prettier --check \"{commons,gateway,services,scripts}/**/*.{ts,js,mjs,json}\" --ignore-path .gitignore",
+    "test": "turbo run test",
+    "db:up": "docker compose -f docker-compose.db.yml up -d",
+    "db:down": "docker compose -f docker-compose.db.yml down",
+    "db:reset": "docker compose -f docker-compose.db.yml down -v && docker compose -f docker-compose.db.yml up -d",
+    "db:generate": "turbo run prisma:generate --concurrency=1",
+    "db:migrate": "turbo run prisma:migrate --concurrency=1",
+    "db:status": "turbo run prisma:status --concurrency=1 --continue",
+    "smoke": "node scripts/smoke-test.mjs"
+  },
+  "engines": {
+    "node": ">=20.12.0"
+  },
+  "packageManager": "pnpm@8.15.0",
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20.14.0",
+    "eslint": "^9.17.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.4.2",
+    "ts-jest": "^29.2.5",
+    "turbo": "^2.3.3",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.19.0"
+  }
+}

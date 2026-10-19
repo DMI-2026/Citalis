@@ -1,0 +1,174 @@
+# ---------------------------------------------------------------------------
+# Citalis · backend (NestJS + pnpm workspace + Prisma) — stack completo en contenedores
+#
+#   docker compose build              construye las 7 imágenes (gateway + 6 servicios)
+#   docker compose run --rm migrator  aplica las migraciones de Prisma (perfil `tools`)
+#   docker compose up -d              levanta todo
+#   pnpm smoke                        valida gateway + servicios + BD
+#
+# PostgreSQL NO vive aquí: se alcanza vía DATABASE_URL (Supabase/Neon, o `pnpm db:up` en local;
+# desde un contenedor usa host.docker.internal en lugar de localhost).
+# El único puerto publicado al host es el del gateway; los servicios solo se ven entre sí en la
+# red `citalis` (por nombre de servicio, nunca localhost).
+#
+# Requiere citalis_back/.env (copiar de .env.example). En modo producción INTERNAL_API_TOKEN
+# debe tener ≥ 32 caracteres y no contener "change_me".
+# ---------------------------------------------------------------------------
+name: citalis-backend
+
+x-common-env: &common-env
+  NODE_ENV: production
+  TZ: ${TZ:-America/Mexico_City}
+  DATABASE_URL: ${DATABASE_URL:?falta DATABASE_URL en citalis_back/.env}
+  INTERNAL_API_TOKEN: ${INTERNAL_API_TOKEN:?falta INTERNAL_API_TOKEN en citalis_back/.env}
+  FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID:-}
+  FIREBASE_CLIENT_EMAIL: ${FIREBASE_CLIENT_EMAIL:-}
+  FIREBASE_PRIVATE_KEY: ${FIREBASE_PRIVATE_KEY:-}
+  ENABLE_TEST_ENDPOINTS: ${ENABLE_TEST_ENDPOINTS:-false}
+  SWAGGER_ENABLED: ${SWAGGER_ENABLED:-false}
+  LOG_LEVEL: ${LOG_LEVEL:-log}
+  # URLs internas: nombre de servicio Docker + puerto interno.
+  AUTH_SERVICE_URL: http://auth-service:3001
+  NEGOCIOS_SERVICE_URL: http://negocios-service:3002
+  AGENDA_SERVICE_URL: http://agenda-service:3003
+  CLIENTES_SERVICE_URL: http://clientes-service:3004
+  DESCUBRIMIENTO_SERVICE_URL: http://descubrimiento-service:3005
+  NOTIFICACIONES_SERVICE_URL: http://notificaciones-service:3006
+
+# Healthcheck: GET /health con el propio node (la imagen no trae curl).
+x-healthcheck: &healthcheck
+  test:
+    - CMD
+    - node
+    - -e
+    - "require('http').get('http://127.0.0.1:'+(process.env.PORT||3000)+'/health',r=>process.exit(r.statusCode<400?0:1)).on('error',()=>process.exit(1))"
+  interval: 30s
+  timeout: 10s
+  retries: 5
+  start_period: 30s
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: '10m'
+    max-file: '3'
+
+x-defaults: &defaults
+  networks:
+    - citalis
+  restart: unless-stopped
+  healthcheck: *healthcheck
+  logging: *logging
+
+services:
+  gateway:
+    <<: *defaults
+    build:
+      context: .
+      target: runtime
+      args: { SERVICE_DIR: gateway, SERVICE_PORT: '3000' }
+    image: citalis/gateway:latest
+    container_name: citalis-gateway
+    environment:
+      <<: *common-env
+      PORT: '3000'
+      CORS_ORIGINS: ${CORS_ORIGINS:-}
+      THROTTLE_TTL: ${THROTTLE_TTL:-60}
+      THROTTLE_LIMIT: ${THROTTLE_LIMIT:-200}
+      TRUST_PROXY: ${TRUST_PROXY:-}
+      USER_CACHE_TTL_MS: ${USER_CACHE_TTL_MS:-30000}
+    ports:
+      - '${GATEWAY_PORT:-3000}:3000'
+    depends_on:
+      - auth-service
+      - negocios-service
+      - agenda-service
+      - clientes-service
+      - descubrimiento-service
+      - notificaciones-service
+
+  auth-service:
+    <<: *defaults
+    build:
+      context: .
+      target: runtime
+      args: { SERVICE_DIR: services/auth-service, SERVICE_PORT: '3001' }
+    image: citalis/auth-service:latest
+    container_name: citalis-auth-service
+    environment: { <<: *common-env, PORT: '3001' }
+    expose: ['3001']
+
+  negocios-service:
+    <<: *defaults
+    build:
+      context: .
+      target: runtime
+      args: { SERVICE_DIR: services/negocios-service, SERVICE_PORT: '3002' }
+    image: citalis/negocios-service:latest
+    container_name: citalis-negocios-service
+    environment: { <<: *common-env, PORT: '3002' }
+    expose: ['3002']
+
+  agenda-service:
+    <<: *defaults
+    build:
+      context: .
+      target: runtime
+      args: { SERVICE_DIR: services/agenda-service, SERVICE_PORT: '3003' }
+    image: citalis/agenda-service:latest
+    container_name: citalis-agenda-service
+    environment: { <<: *common-env, PORT: '3003' }
+    expose: ['3003']
+
+  clientes-service:
+    <<: *defaults
+    build:
+      context: .
+      target: runtime
+      args: { SERVICE_DIR: services/clientes-service, SERVICE_PORT: '3004' }
+    image: citalis/clientes-service:latest
+    container_name: citalis-clientes-service
+    environment: { <<: *common-env, PORT: '3004' }
+    expose: ['3004']
+
+  descubrimiento-service:
+    <<: *defaults
+    build:
+      context: .
+      target: runtime
+      args: { SERVICE_DIR: services/descubrimiento-service, SERVICE_PORT: '3005' }
+    image: citalis/descubrimiento-service:latest
+    container_name: citalis-descubrimiento-service
+    environment:
+      <<: *common-env
+      PORT: '3005'
+      GEOCODING_BASE_URL: ${GEOCODING_BASE_URL:-}
+      GEOCODING_API_KEY: ${GEOCODING_API_KEY:-}
+    expose: ['3005']
+
+  notificaciones-service:
+    <<: *defaults
+    build:
+      context: .
+      target: runtime
+      args: { SERVICE_DIR: services/notificaciones-service, SERVICE_PORT: '3006' }
+    image: citalis/notificaciones-service:latest
+    container_name: citalis-notificaciones-service
+    environment: { <<: *common-env, PORT: '3006' }
+    expose: ['3006']
+
+  # Aplica las migraciones de Prisma. Nunca arranca con `up`: docker compose run --rm migrator
+  migrator:
+    build:
+      context: .
+      target: migrator
+    image: citalis/migrator:latest
+    profiles: ['tools']
+    networks:
+      - citalis
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?falta DATABASE_URL en citalis_back/.env}
+
+networks:
+  citalis:
+    name: citalis

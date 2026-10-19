@@ -1,0 +1,26 @@
+// descubrimiento-service · schema PostgreSQL `descubrimiento`
+// Módulo 5 (Ubicación y descubrimiento). Búsqueda y cercanía se componen consultando a
+// negocios-service (dueño de `businesses`); aquí solo se guardan los favoritos del cliente.
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["descubrimiento"]
+}
+
+/// Negocios guardados por un cliente ("Guardados" en la app). Referencias lógicas, sin FK física.
+model Favorite {
+  userId     String   @map("user_id") @db.Uuid
+  businessId String   @map("business_id") @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  @@id([userId, businessId])
+  @@index([userId])
+  @@map("favorites")
+  @@schema("descubrimiento")
+}

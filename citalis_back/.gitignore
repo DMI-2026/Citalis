@@ -1,0 +1,33 @@
+# ---------------------------------------------------------------------------
+# citalis_back · backend NestJS (monorepo pnpm + turbo)
+# ---------------------------------------------------------------------------
+
+# Dependencias y compilados
+node_modules/
+.pnpm-store/
+dist/
+.turbo/
+*.tsbuildinfo
+coverage/
+
+# Cliente Prisma generado (se regenera con `pnpm db:generate`; el binario depende del SO)
+**/src/generated/
+
+# Variables de entorno y secretos: solo se versiona .env.example
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+# Cuentas de servicio de Firebase / Google Cloud
+*-firebase-adminsdk-*.json
+serviceAccount*.json
+google-services.json
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*

@@ -1,0 +1,49 @@
+// notificaciones-service · schema PostgreSQL `notificaciones`
+// Módulo 6 (Notificaciones) y Req 7.3 (permisos). `user_id` es referencia lógica a auth.users.
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["notificaciones"]
+}
+
+enum NotificationPlatform {
+  ios
+  android
+  web
+
+  @@map("notification_platform")
+  @@schema("notificaciones")
+}
+
+/// Preferencias del usuario: puede desactivar recordatorios, promociones y novedades (Req 6.1, 7.3).
+model NotificationPreference {
+  userId    String   @id @map("user_id") @db.Uuid
+  reminders Boolean  @default(true)
+  promos    Boolean  @default(false)
+  news      Boolean  @default(true)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz()
+
+  @@map("notification_preferences")
+  @@schema("notificaciones")
+}
+
+/// Token FCM por dispositivo (Req 6.1).
+model NotificationToken {
+  id         String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId     String               @map("user_id") @db.Uuid
+  platform   NotificationPlatform
+  token      String
+  createdAt  DateTime             @default(now()) @map("created_at") @db.Timestamptz()
+  lastUsedAt DateTime             @default(now()) @map("last_used_at") @db.Timestamptz()
+
+  @@unique([userId, token])
+  @@index([userId])
+  @@map("notification_tokens")
+  @@schema("notificaciones")
+}

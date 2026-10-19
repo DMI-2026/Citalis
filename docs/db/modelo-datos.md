@@ -68,9 +68,14 @@ La `EXCLUDE USING gist` sobre `reservations` evita a nivel de base de datos que 
 ```sql
 EXCLUDE USING gist (
   business_id WITH =,
-  tstzrange(scheduled_at, scheduled_at + duration_minutes * INTERVAL '1 minute') WITH &&
+  tsrange(
+    (scheduled_at AT TIME ZONE 'UTC'),
+    (scheduled_at AT TIME ZONE 'UTC') + duration_minutes * INTERVAL '1 minute'
+  ) WITH &&
 ) WHERE (status IN ('pending','confirmed'));
 ```
+
+> El rango se calcula en UTC con `tsrange` porque `timestamptz + interval` es `STABLE` y PostgreSQL exige expresiones `IMMUTABLE` en restricciones `EXCLUDE` (con `tstzrange` el script falla al aplicarse).
 
 ### 5. Vinculación cliente-negocio
 
@@ -153,8 +158,8 @@ Para **categorías y municipios** usamos tablas (`business_categories`, `municip
 createdb citalis_dev
 psql citalis_dev -f docs/db/schema.sql
 
-# Prisma (desde el futuro citalis_api)
-# El schema de Prisma se derivará de este SQL con `prisma db pull` tras aplicarlo.
 ```
 
-El archivo se mantiene como la **fuente canónica** del modelo. Cualquier cambio al esquema debe pasar primero por aquí y luego reflejarse en las migraciones de Prisma.
+> **Despliegue físico del backend.** `schema.sql` es el modelo **lógico** completo y sirve para entender, revisar o levantar una base de pruebas de una sola vez. El backend (`citalis_back/`) lo materializa **repartido por microservicio**: una sola base con un schema de PostgreSQL por servicio (`auth`, `negocios`, `agenda`, `clientes`, `descubrimiento`, `notificaciones`), cada uno con su `schema.prisma` y sus migraciones en `citalis_back/services/*/prisma/`. Por eso las referencias entre servicios (`owner_id`, `business_id`, `client_id`…) son UUID sin llave foránea física y las vistas que cruzan servicios se componen en código. Ver [`../backend/guia-de-trabajo.md`](../backend/guia-de-trabajo.md).
+
+El archivo se mantiene como la **fuente canónica del modelo lógico**. Cualquier cambio al esquema debe pasar primero por aquí y luego reflejarse en el `schema.prisma` y la migración del servicio dueño de la tabla (`pnpm prisma:dev` dentro del servicio).

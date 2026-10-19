@@ -1,0 +1,55 @@
+// auth-service · schema PostgreSQL `auth`
+// Módulo 1 (Cuenta y seguridad) y Req 7.1 (perfil). Contraseñas y sesiones las gestiona Firebase.
+// Extensión citext (correos sin distinguir mayúsculas): la crea la migración con CREATE EXTENSION IF NOT EXISTS;
+// Prisma no gestiona extensiones (son globales a la base y generarían drift entre servicios).
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["auth"]
+}
+
+/// Cuenta global de Citalis: sirve a clientes y a propietarios (HU 1.1).
+model User {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email       String    @unique @db.Citext
+  /// UID en Firebase Auth. Nullable para permitir cuentas administrativas creadas por el backend.
+  firebaseUid String?   @unique @map("firebase_uid") @db.VarChar(128)
+  name        String    @db.VarChar(120)
+  phone       String?   @db.VarChar(20)
+  /// Ubicación manual cuando el usuario niega el permiso de GPS (Req 5.3).
+  defaultCity String?   @map("default_city") @db.VarChar(80)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz()
+  /// Soft delete: NULL = activo.
+  deletedAt   DateTime? @map("deleted_at") @db.Timestamptz()
+
+  auditLogs AuditLog[]
+
+  @@index([deletedAt])
+  @@map("users")
+  @@schema("auth")
+}
+
+/// Bitácora de eventos de seguridad/cuenta (registro, cambios de perfil, bajas).
+model AuditLog {
+  id        BigInt   @id @default(autoincrement())
+  userId    String?  @map("user_id") @db.Uuid
+  entity    String   @db.VarChar(60)
+  entityId  String?  @map("entity_id") @db.Uuid
+  action    String   @db.VarChar(60)
+  metadata  Json?
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([entity, entityId])
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("audit_log")
+  @@schema("auth")
+}
