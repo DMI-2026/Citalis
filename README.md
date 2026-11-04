@@ -109,10 +109,15 @@ Más detalle en [`apps/mobile/README.md`](apps/mobile/README.md).
 ```
 .
 ├── README.md                       # Este archivo — visión general y estructura
-├── CLAUDE.md · AGENTS.md           # Instrucciones para las IA del equipo (apuntan a la guía de trabajo)
-├── .github/workflows/
-│   └── ci-backend.yml              # CI del backend: lint, build, pruebas, migraciones + smoke, Docker
+├── AGENTS.md                       # Reglas del equipo (máx. 20 líneas); CLAUDE.md solo lo importa
+├── .gitignore                      # Generados, .env y llaves que nunca se suben
 ├── docs/
+│   ├── 01-alcance.md               # SOW (obligatorio)
+│   ├── 02-prd.md                   # PRD (obligatorio)
+│   ├── 03-integraciones.md         # Servicios externos
+│   ├── 04-arquitectura.md          # Decisiones de sistema
+│   ├── 05-datos.md                 # Modelo de datos conceptual
+│   ├── 06-convenciones.md          # CONVENCIONES (obligatorio)
 │   ├── historias-de-usuario.md     # Requerimientos por módulo
 │   ├── db/                         # Modelo de datos (modelo-datos.md, schema.sql, diagrama ER)
 │   ├── backend/
@@ -123,10 +128,10 @@ Más detalle en [`apps/mobile/README.md`](apps/mobile/README.md).
 │   ├── pruebas.md                  # Evidencia de pruebas (H5)
 │   ├── distribucion/               # Expediente de liberación (H7)
 │   └── ia/bitacora.md              # Bitácora de uso de IA (Nivel 4)
-├── apps/mobile/                    # Frontend Flutter
+├── apps/mobile/                    # App Flutter (obligatoria)
 │   ├── lib/ · test/ · pubspec.yaml
 │   └── README.md
-└── apps/api/                   # Backend NestJS (monorepo pnpm + turbo)
+└── apps/api/                       # Backend NestJS (monorepo pnpm + turbo)
     ├── gateway/                    # API Gateway: auth Firebase, proxy, límites
     ├── services/
     │   ├── auth-service/           # M1 · 7.1  — usuarios (schema auth)
@@ -152,6 +157,12 @@ Más detalle en [`apps/mobile/README.md`](apps/mobile/README.md).
 
 | Documento | Para qué |
 |---|---|
+| [`docs/01-alcance.md`](docs/01-alcance.md) | SOW: objetivo, decisiones, módulos, plan, riesgos y criterios |
+| [`docs/02-prd.md`](docs/02-prd.md) | PRD: historias de usuario, NFR y fuera de alcance |
+| [`docs/03-integraciones.md`](docs/03-integraciones.md) | Servicios externos y orden en el roadmap |
+| [`docs/04-arquitectura.md`](docs/04-arquitectura.md) | Composición, escalado y aislamiento |
+| [`docs/05-datos.md`](docs/05-datos.md) | ERD conceptual y reglas transversales |
+| [`docs/06-convenciones.md`](docs/06-convenciones.md) | Patrones, testing, organización y flujo de Git |
 | [`docs/historias-de-usuario.md`](docs/historias-de-usuario.md) | Qué hace la app, por módulo y requerimiento |
 | [`docs/db/modelo-datos.md`](docs/db/modelo-datos.md) · [`schema.sql`](docs/db/schema.sql) | Modelo de datos lógico y decisiones de diseño |
 | [`apps/api/README.md`](apps/api/README.md) | Cómo levantar y probar los microservicios |
@@ -180,7 +191,9 @@ Cada integrante es responsable de al menos una capacidad (base u optativa) o req
 
 ## Flujo de contribución
 
-- Rama por tarea sobre `main`, con prefijo `feat/`, `fix/`, `refactor/`, `docs/`, `test/` o `chore/`.
+- **Git flow**: `main` solo recibe versiones liberadas (merge desde `develop` o `release/*`); `develop` integra el trabajo del sprint.
+- Cada tarea en su rama desde `develop`: `feature/<n>-<tema>` (también `docs/`, `fix/`, `test/` o `chore/`); correcciones urgentes en `hotfix/*` desde `main`.
+- Nunca hagas push directo a `main` ni a `develop`: todo entra por PR.
 - Un solo PR por tarea, con descripción clara del cambio (qué, por qué, cómo probarlo) y referencia al requerimiento que atiende (ej. `Req 3.4`).
 - **Al menos una aprobación** de otro integrante antes del merge; el CI del backend debe estar en verde.
 - Mensajes de commit en español, en imperativo y usando prefijos por área (ejemplo: `feat(booking): slot picker con días disabled`, `feat(agenda): calcular disponibilidad`).
@@ -195,9 +208,15 @@ Antes de abrir un PR del frontend verifica que `flutter analyze` esté limpio. A
 
 Proyecto académico desarrollado por el **Team 3** del grupo **DMI-2026** · 10mo cuatrimestre · Universidad Tecnológica Emiliano Zapata del Estado de Morelos (UTEZ).
 
-| Integrante | Rol / capacidades |
-|---|---|
-| _(completar)_ | _(completar)_ |
+Los roles rotan en la semana 9. Cada integrante se agrega a esta tabla desde su propia rama (`docs/rol-<nombre>`).
+
+| Rol | Qué hace | Integrante (usuario de GitHub) |
+|---|---|---|
+| Coordinación del repositorio | Crea el repo, invita y cuida que `main`/`develop` solo reciban PR revisados | _(completar)_ |
+| Documentos | Reparte quién escribe cada documento y revisa que no se contradigan | _(completar)_ |
+| App móvil | Mantiene `apps/mobile` con `flutter analyze` y `flutter test` en verde | _(completar)_ |
+| Backend | Mantiene `apps/api` y su README (decisión D-03 del SOW) | _(completar)_ |
+| Revisión | Lee cada PR antes de que entre y deja un comentario concreto | _(completar)_ |
 
 ---
 
