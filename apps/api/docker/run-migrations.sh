@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------------
 # Aplica las migraciones de Prisma de los servicios contra la base de datos.
 #
-# Uso (desde citalis_back/):
+# Uso (desde apps/api/):
 #   docker compose run --rm migrator                      # todos los servicios
 #   docker compose run --rm migrator auth-service         # solo uno
 #   docker compose run --rm migrator status               # estado, sin aplicar nada
@@ -15,7 +15,7 @@ set -e
 cd /app
 
 if [ -z "$DATABASE_URL" ]; then
-  echo "ERROR: DATABASE_URL no está definida. Revisa citalis_back/.env" >&2
+  echo "ERROR: DATABASE_URL no está definida. Revisa apps/api/.env" >&2
   exit 1
 fi
 

@@ -1,6 +1,6 @@
 # ---------------------------------------------------------------------------
-# PostgreSQL local para DESARROLLO (opcional: también puedes apuntar DATABASE_URL a
-# Supabase/Neon). Publica el puerto 5433 para no chocar con un Postgres instalado en 5432.
+# PostgreSQL en contenedor (opcional: también puedes apuntar DATABASE_URL a otro
+# Postgres). Publica el puerto 5433 para no chocar con un Postgres instalado en 5432.
 #
 #   pnpm db:up        levanta la base         pnpm db:down     la detiene (conserva datos)
 #   pnpm db:reset     la BORRA y la recrea vacía (luego: pnpm db:migrate)

@@ -10,11 +10,11 @@ Evidencia de pruebas del proyecto (enunciado §5, hito H5 · 27 nov). Las prueba
 | De widget (incluye pantalla de permiso denegado y una con estados de carga y error) | 4 | `flutter test` | ⏳ |
 | De integración (flujo principal) | 1 | `flutter test integration_test` | ⏳ |
 
-## Backend (`citalis_back/`)
+## Backend (`apps/api/`)
 
 | Tipo | Cobertura | Comando | Estado |
 |---|---|---|---|
-| Unitarias (Jest) | Guard de identidad, filtro de errores, cliente HTTP (timeout, reintento, datos inválidos), reporte de BD, middleware del gateway y ruteo, registro de usuario (idempotencia, 409, 400), endpoint `/test` de cada servicio | `pnpm test` (desde `citalis_back/`) | ✅ 60 pruebas pasando (2026-10-19) |
+| Unitarias (Jest) | Guard de identidad, filtro de errores, cliente HTTP (timeout, reintento, datos inválidos), reporte de BD, middleware del gateway y ruteo, registro de usuario (idempotencia, 409, 400), endpoint `/test` de cada servicio | `pnpm test` (desde `apps/api/`) | ✅ 60 pruebas pasando (2026-10-19) |
 | Humo del sistema (gateway + servicios + BD real) | `GET /health` y `GET /<prefijo>/test` de los 7 procesos | `pnpm smoke` | ✅ |
 | Análisis estático | ESLint + Prettier | `pnpm lint` · `pnpm format:check` | ✅ |
 | Reglas de acceso por usuario (S4) | Una prueba por regla de la guía §8.3 al implementar cada módulo | `pnpm test` | ⏳ |

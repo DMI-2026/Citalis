@@ -6,12 +6,12 @@
 #   docker compose up -d              levanta todo
 #   pnpm smoke                        valida gateway + servicios + BD
 #
-# PostgreSQL NO vive aquí: se alcanza vía DATABASE_URL (Supabase/Neon, o `pnpm db:up` en local;
+# PostgreSQL NO vive aquí: se alcanza vía DATABASE_URL (`pnpm db:up` levanta el contenedor de Postgres;
 # desde un contenedor usa host.docker.internal en lugar de localhost).
 # El único puerto publicado al host es el del gateway; los servicios solo se ven entre sí en la
 # red `citalis` (por nombre de servicio, nunca localhost).
 #
-# Requiere citalis_back/.env (copiar de .env.example). En modo producción INTERNAL_API_TOKEN
+# Requiere apps/api/.env (copiar de .env.example). En modo producción INTERNAL_API_TOKEN
 # debe tener ≥ 32 caracteres y no contener "change_me".
 # ---------------------------------------------------------------------------
 name: citalis-backend
@@ -19,8 +19,8 @@ name: citalis-backend
 x-common-env: &common-env
   NODE_ENV: production
   TZ: ${TZ:-America/Mexico_City}
-  DATABASE_URL: ${DATABASE_URL:?falta DATABASE_URL en citalis_back/.env}
-  INTERNAL_API_TOKEN: ${INTERNAL_API_TOKEN:?falta INTERNAL_API_TOKEN en citalis_back/.env}
+  DATABASE_URL: ${DATABASE_URL:?falta DATABASE_URL en apps/api/.env}
+  INTERNAL_API_TOKEN: ${INTERNAL_API_TOKEN:?falta INTERNAL_API_TOKEN en apps/api/.env}
   FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID:-}
   FIREBASE_CLIENT_EMAIL: ${FIREBASE_CLIENT_EMAIL:-}
   FIREBASE_PRIVATE_KEY: ${FIREBASE_PRIVATE_KEY:-}
@@ -167,7 +167,7 @@ services:
     networks:
       - citalis
     environment:
-      DATABASE_URL: ${DATABASE_URL:?falta DATABASE_URL en citalis_back/.env}
+      DATABASE_URL: ${DATABASE_URL:?falta DATABASE_URL en apps/api/.env}
 
 networks:
   citalis:

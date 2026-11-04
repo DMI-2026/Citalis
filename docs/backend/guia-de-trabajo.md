@@ -1,8 +1,8 @@
 # Citalis · Guía de trabajo del backend
 
 > **Documento normativo para el equipo y para las IA que usemos** (Claude Code, Copilot, Cursor, ChatGPT…).
-> Si eres una IA: **lee este archivo completo antes de generar o modificar código en `citalis_back/`** y síguelo al pie de la letra. Si algo del encargo contradice esta guía, no improvises: avisa a la persona y propón actualizar la guía.
-> Si eres persona: pega la ruta de este archivo en tu primer prompt (`docs/backend/guia-de-trabajo.md`). Existen `citalis_back/CLAUDE.md` y `AGENTS.md` que ya apuntan aquí.
+> Si eres una IA: **lee este archivo completo antes de generar o modificar código en `apps/api/`** y síguelo al pie de la letra. Si algo del encargo contradice esta guía, no improvises: avisa a la persona y propón actualizar la guía.
+> Si eres persona: pega la ruta de este archivo en tu primer prompt (`docs/backend/guia-de-trabajo.md`). El `AGENTS.md` de la raíz ya apunta aquí.
 
 **Objetivo:** que los seis servicios se vean como escritos por una sola persona: mismas carpetas, mismos nombres, mismas respuestas de error, mismas pruebas. **Nadie crea su propia arquitectura.**
 
@@ -54,7 +54,7 @@ Notas de reparto:
 2. **Sin llaves foráneas entre schemas.** Una referencia a otro servicio es una columna `UUID` simple (`owner_id`, `business_id`, `client_id`…) comentada en el `schema.prisma` con su origen. La integridad se valida en el caso de uso (consultando al dueño del dato).
 3. **El gateway no tiene lógica de negocio:** solo enruta, autentica (Firebase), limita tráfico y observa.
 4. **Los servicios no se llaman entre sí a ciegas:** cada llamada pasa por un `http-client` de `infrastructure/http-clients/` que usa el contrato de `@backend/contracts`.
-5. **Toda la configuración sale de variables de entorno** (único `.env` en la raíz de `citalis_back/`). Nada de secretos en el repo.
+5. **Toda la configuración sale de variables de entorno** (único `.env` en la raíz de `apps/api/`). Nada de secretos en el repo.
 6. **Código compartido → `commons/`.** Si lo necesitan dos servicios, va a `commons/`; no se copia y pega entre servicios.
 
 > **Relación con `docs/db/schema.sql`:** `schema.sql` es el **modelo lógico** completo (una sola base). Físicamente se reparte por servicio como arriba, y las migraciones de Prisma (`services/*/prisma/migrations`) son lo que realmente se aplica. Las vistas `v_business_rating` y `v_business_agenda` cruzan servicios, por eso no existen físicamente: se componen en código. Un cambio de modelo se refleja **en ambos**: primero se acuerda en `modelo-datos.md`/`schema.sql` y se implementa en la migración del servicio dueño.
@@ -64,7 +64,7 @@ Notas de reparto:
 ## 2. Qué va en cada carpeta
 
 ```
-citalis_back/
+apps/api/
 ├── gateway/                    ⛔ Solo ruteo/auth/límites. Tocar únicamente para: nueva ruta (routes.ts) o ruta pública.
 ├── services/
 │   └── <servicio>/
@@ -84,7 +84,7 @@ citalis_back/
 └── .env.example                ÚNICO catálogo de variables. Variable nueva ⇒ se agrega aquí con comentario.
 ```
 
-Fuera de `citalis_back/`: `docs/` (documentación del repo), `citalis_app/` (frontend Flutter; el backend **no** depende de él).
+Fuera de `apps/api/`: `docs/` (documentación del repo), `apps/mobile/` (frontend Flutter; el backend **no** depende de él).
 
 ---
 
@@ -118,7 +118,7 @@ src/modules/<dominio>/
 | domain | nada del proyecto salvo tipos | Nest, Prisma, otras capas |
 | infrastructure | domain, Prisma, `@backend/utils` | presentation |
 
-**Referencia viva:** [`services/auth-service/src/modules/users/`](../../citalis_back/services/auth-service/src/modules/users/) implementa el patrón completo (registro idempotente, consulta interna para el gateway, perfil) con pruebas. **Cuando dudes cómo escribir algo, copia su forma.**
+**Referencia viva:** [`services/auth-service/src/modules/users/`](../../apps/api/services/auth-service/src/modules/users/) implementa el patrón completo (registro idempotente, consulta interna para el gateway, perfil) con pruebas. **Cuando dudes cómo escribir algo, copia su forma.**
 
 Patrón del caso de uso con repositorio inyectado por token:
 
@@ -196,7 +196,7 @@ Verifica el token de Firebase, resuelve el usuario interno en `auth-service` (ca
 
 Ejemplo: *Req 2.4 — crear un servicio del catálogo* en `negocios-service`.
 
-1. **Rama:** `git switch -c feat/negocios-crear-servicio` desde `main` actualizado (§11).
+1. **Rama:** `git switch develop && git pull && git switch -c feature/negocios-crear-servicio` (§11.1).
 2. **Lee el requerimiento** en `historias-de-usuario.md` y anota sus *reglas de negocio* y *criterios de aplicación*: se convierten en validaciones y pruebas.
 3. **Define el contrato primero** (endpoint, entrada, salida, errores). Si otro servicio lo consumirá, agrega el DTO a `@backend/contracts`.
 4. **Datos:** si hace falta una tabla/columna, edita el `schema.prisma` **de tu servicio** y crea la migración (§7). Nunca toques el schema de otro servicio.
@@ -286,7 +286,7 @@ Prettier + ESLint son la autoridad: `pnpm format` y `pnpm lint` antes de cada co
 ### Crear o cambiar una tabla
 
 ```bash
-cd citalis_back/services/<servicio>
+cd apps/api/services/<servicio>
 # 1. edita prisma/schema.prisma (modelos con @@map("tabla") y @@schema("<schema>"))
 # 2. crea y aplica la migración en TU base de desarrollo:
 pnpm prisma:dev --name descripcion_corta_del_cambio
@@ -299,10 +299,10 @@ pnpm prisma:dev --name descripcion_corta_del_cambio
 
 ### Reglas
 
-1. **Nunca edites una migración que ya está en `main`** ni una ya aplicada en otra base. Corrige con una migración nueva.
-2. **Nunca uses `prisma db push`** ni `prisma migrate reset` sobre una base compartida (Supabase/Neon del equipo). Si `migrate dev` pide resetear, **responde no** y pregunta al equipo.
+1. **Nunca edites una migración que ya está en `develop` o en `main`** ni una ya aplicada en otra base. Corrige con una migración nueva.
+2. **Nunca uses `prisma db push`** ni `prisma migrate reset` sobre una base compartida del equipo. Si `migrate dev` pide resetear, **responde no** y pregunta al equipo.
 3. En bases compartidas/remotas solo se aplica `pnpm db:migrate` (`migrate deploy`). `migrate dev` (crear migraciones) se hace **en tu Postgres local** (`pnpm db:up`), porque necesita crear una base *shadow*.
-4. Si dos personas cambian el schema del mismo servicio, la segunda rehace su migración tras actualizar desde `main` (coordínense por el grupo antes de empezar).
+4. Si dos personas cambian el schema del mismo servicio, la segunda rehace su migración tras actualizar desde `develop` (coordínense por el grupo antes de empezar).
 5. El `schema.prisma` y su migración **van en el mismo commit**. Tras cambiar el schema, `pnpm db:generate` regenera el cliente.
 6. Cambios que afectan a otro servicio (p. ej. quitar un campo que otro consume) se avisan en el PR y se actualiza `@backend/contracts`.
 7. Los catálogos (categorías, municipios) son **datos semilla en la migración**: agregar una categoría = migración con `INSERT … ON CONFLICT DO NOTHING`.
@@ -415,7 +415,20 @@ Toda API externa (geocodificación, FCM…) se consume así: un `*.http-client.t
 
 ### 11.1 Ramas
 
-Se trabaja **solo por Pull Request** hacia `main` (nadie hace push directo; conviene activar la protección de rama en GitHub). Una rama por tarea con prefijo `feat/`, `fix/`, `refactor/`, `docs/`, `chore/`, `test/`: `feat/agenda-disponibilidad`.
+Usamos **git flow**. Nadie hace push directo a `main` ni a `develop`; todo entra por Pull Request.
+
+| Rama | Sale de | Se fusiona en | Para qué |
+|---|---|---|---|
+| `main` | — | — | Solo versiones entregadas (una por hito) |
+| `develop` | `main` | `main` (vía `release/*`) | Integra el trabajo terminado del tablero |
+| `feature/<tema>` | `develop` | `develop` | Una tarea del tablero: `feature/agenda-disponibilidad` |
+| `fix/<tema>`, `docs/<tema>`, `test/<tema>`, `chore/<tema>` | `develop` | `develop` | Correcciones, documentación, pruebas o mantenimiento |
+| `release/<hito>` | `develop` | `main` y `develop` | Congelar lo que se entrega en un hito: `release/h4` |
+| `hotfix/<tema>` | `main` | `main` y `develop` | Arreglo urgente sobre una versión ya entregada |
+
+Antes de abrir el PR actualiza tu rama con `develop` (`git pull origin develop`) y resuelve los conflictos en tu rama, no en `develop`.
+
+El trabajo se organiza con **Scrumban**: las tareas viven en un tablero (Por hacer → En curso → En revisión → Hecho) con límite de tareas en curso por persona; cada tarjeta es una rama y un PR.
 
 ### 11.2 Commits
 
@@ -433,7 +446,9 @@ Un commit = un cambio coherente. El `schema.prisma` y su migración van juntos.
 
 - Un PR por tarea, que **referencie el requerimiento** (`Req 3.3`) y la rúbrica si aplica (`F2`).
 - Descripción: qué cambia · por qué · cómo probarlo (comandos o `curl`).
-- **Mínimo 1 aprobación** de otro integrante (la rúbrica lo exige; el autor no se aprueba a sí mismo). CI en verde.
+- **Mínimo 1 aprobación** de otro integrante (la rúbrica lo exige; el autor no se aprueba a sí mismo).
+- Todavía no hay CI: quien abre el PR corre `pnpm lint && pnpm test && pnpm build` y lo indica en la descripción.
+- El PR apunta a `develop` (o a `main` solo si es `release/*` o `hotfix/*`).
 - Debe cumplir el checklist de §13.
 
 ### 11.4 Uso de IA — Nivel 4 (bitácora obligatoria)
@@ -546,7 +561,7 @@ Marca cada punto antes de pedir revisión:
 - Verificar tokens de Firebase dentro de un servicio de dominio (lo hace el gateway).
 - Devolver entidades de Prisma crudas, o aceptar `userId` desde el cliente.
 - Editar migraciones ya integradas, `db push`, `migrate reset` en bases compartidas.
-- Subir `.env`, JSON de cuenta de servicio, claves de API, keystores o `google-services.json`.
+- Subir `.env`, JSON de cuenta de servicio (`*-adminsdk-*.json`, `serviceAccount*.json`), claves de API o keystores. La configuración de Firebase de la app (`google-services.json`, `GoogleService-Info.plist`, `firebase_options.dart`) **sí** se versiona: solo identifica el proyecto y lo protegen las reglas.
 - Lógica de negocio en el gateway, en `commons/` o en `scripts/`.
 - Duplicar tipos/DTOs de contrato en lugar de `@backend/contracts`; copiar y pegar utilidades entre servicios en lugar de `commons/`.
 - `console.log`, `any`, `// @ts-ignore`, `catch {}` vacío.
@@ -560,8 +575,8 @@ Cosas que **hay que decidir y documentar** (abrir PR/ADR cuando se resuelvan):
 
 | # | Decisión | Por qué importa | Límite sugerido |
 |---|---|---|---|
-| 1 | **Proveedor de geocodificación** (F3): OpenStreetMap/Nominatim, Geoapify, Google… | Es la API de terceros que exige la rúbrica; define `GEOCODING_BASE_URL`/`GEOCODING_API_KEY` | Antes de H3 |
-| 2 | **Hosting del backend con HTTPS** y de la base (Supabase/Neon/EC2/Render) | S2 y las pruebas en dispositivo físico (P1/P2) necesitan un backend alcanzable por HTTPS | Antes de H4 |
+| 1 | ✅ **Geocodificación** (F3): Nominatim/OpenStreetMap, sin llave; requiere `User-Agent` propio y máximo 1 solicitud/s | Es la API de terceros que exige la rúbrica; define `GEOCODING_BASE_URL` | Antes de H3 |
+| 2 | ✅ **Despliegue con Docker**: `Dockerfile` + `docker-compose.yml` (gateway y servicios) y `docker-compose.db.yml` (PostgreSQL); HTTPS por delante del gateway | S2 y las pruebas en dispositivo físico (P1/P2) necesitan un backend alcanzable por HTTPS | Antes de H4 |
 | 3 | **Firebase Storage + `storage.rules`** por propietario, con pruebas de reglas | S4 y P1: foto subida a la nube con acceso restringido al dueño | Antes de H3 |
 | 4 | Cómo se guarda y expira el **token FCM** y quién envía los recordatorios (cron en notificaciones-service) | P3/6.1/O6 | Antes de H3 |
 | 5 | **Roles de BD por servicio** con permisos solo sobre su schema (mínimo privilegio) | Refuerza S4; hoy todos los servicios usan la misma credencial | Antes de H7 |
