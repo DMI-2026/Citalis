@@ -32,8 +32,8 @@ Uso de IA **Nivel 4 — IA completa** (enunciado del proyecto integrador): se pe
 ## Sesiones
 
 ### 2026-10-19 · _(integrante: completar)_ · Claude Code (Claude Sonnet 5.5)
-- **Tarea / requisito:** estructura inicial del backend (`citalis_back/`), conexión a la BD, endpoint de prueba por microservicio, guía de trabajo y READMEs · apoyo a F1, F5, S2–S5, S7.
+- **Tarea / requisito:** estructura inicial del backend (`apps/api/`), conexión a la BD, endpoint de prueba por microservicio, guía de trabajo y READMEs · apoyo a F1, F5, S2–S5, S7.
 - **Prompt (resumen):** se entregaron como contexto el modelo de datos (`docs/db/modelo-datos.md`), las historias de usuario, el backend de nómina (`RH-Nomina`) como estructura objetivo y la rúbrica del integrador; se pidió armar gateway, servicios y commons con las mismas tecnologías (NestJS, Prisma, PostgreSQL), Firebase para el control de acceso, un endpoint de prueba por servicio y documentación para que el equipo trabaje con una sola arquitectura.
-- **Resultado:** monorepo `citalis_back/` (gateway + 6 servicios + 5 paquetes `commons`), migraciones por servicio, Dockerfile/compose, `README`s, `docs/backend/guia-de-trabajo.md`, `CLAUDE.md`/`AGENTS.md`, documentos de la rúbrica y corrección de `docs/db/schema.sql`.
+- **Resultado:** monorepo `apps/api/` (gateway + 6 servicios + 5 paquetes `commons`), migraciones por servicio, Dockerfile/compose, `README`s, `docs/backend/guia-de-trabajo.md`, `CLAUDE.md`/`AGENTS.md`, documentos de la rúbrica y corrección de `docs/db/schema.sql`.
 - **Qué revisé / cambié:** ejecuté contra un PostgreSQL real (instalación, migraciones desde cero, `pnpm test`, `pnpm lint`, `pnpm build`, `pnpm dev`, stack en Docker y `pnpm smoke`); probé el anti-traslape de reservas, los `CHECK` y el flujo de autenticación con tokens de prueba. La verificación detectó dos errores del `schema.sql` original (orden de la extensión `pg_trgm` y `EXCLUDE` no inmutable) que se corrigieron.
 - **Entendimiento:** _(cada integrante completa lo que pudo explicar de este cambio antes de la defensa)_

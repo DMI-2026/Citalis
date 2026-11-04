@@ -6,7 +6,7 @@
  * Se invoca a través de los scripts `prisma:*` del package.json de cada servicio.
  *
  * Qué resuelve:
- *  1. Carga el ÚNICO .env de citalis_back/ (sin pisar variables ya definidas, p. ej. en Docker/CI).
+ *  1. Carga el ÚNICO .env de apps/api/ (sin pisar variables ya definidas, p. ej. en Docker/CI).
  *  2. Todos los servicios comparten UNA base de datos con un schema por servicio. Prisma guarda su
  *     historial en la tabla `_prisma_migrations` del schema de la URL; si todos usaran `public`
  *     se mezclarían los historiales y `migrate dev` pediría resetear la base. Aquí se añade

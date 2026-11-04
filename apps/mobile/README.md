@@ -1,6 +1,8 @@
-# citalis_app · Frontend Flutter
+# apps/mobile · App Flutter de Citalis
 
-Cliente Flutter de **Citalis** para iOS, Android y Web. Esta carpeta es uno de los dos subproyectos del monorepo; para la visión general del producto y el estado del backend, revisa el [README raíz](../README.md).
+Cliente Flutter de **Citalis** para iOS, Android y Web. Vive en `apps/mobile/` dentro del monorepo, junto al backend en [`apps/api/`](../api/). Para la visión general del producto revisa el [README raíz](../../README.md).
+
+El paquete Dart se llama `citalis_app` (los imports son `package:citalis_app/...`); la carpeta y el paquete no tienen que coincidir.
 
 ---
 
@@ -14,7 +16,7 @@ Despliegue web público (producción):
 
 ## Alcance del prototipo
 
-El proyecto implementa dos roles operando sobre una misma cuenta de usuario, siguiendo las historias de usuario definidas en [`docs/historias-de-usuario.md`](../docs/historias-de-usuario.md):
+El proyecto implementa dos roles operando sobre una misma cuenta de usuario, siguiendo las historias de usuario definidas en [`docs/historias-de-usuario.md`](../../docs/historias-de-usuario.md):
 
 **Modo Cliente**
 - Exploración de negocios con sección "Cerca de ti" y filtros por categoría.
@@ -45,14 +47,14 @@ El estado se mantiene en memoria (`AppState` basado en `ChangeNotifier`) con dat
 | Códigos QR | `qr_flutter` |
 | Hosting demo | Vercel (SPA estática) |
 
-Backend previsto: **NestJS + Prisma + PostgreSQL + Firebase** (Auth, FCM, Storage). Ver el repositorio `citalis-api` cuando esté publicado.
+Backend: **NestJS + Prisma + PostgreSQL + Firebase** (Auth, FCM, Storage) en [`apps/api/`](../api/README.md). La app todavía no se conecta a él: trabaja con datos semilla.
 
 ---
 
 ## Puesta en marcha
 
 ### Requisitos
-- Flutter SDK `>=3.13`
+- Flutter SDK estable (probado con 3.47.2)
 - Dart `^3.13.2`
 - Para iOS: Xcode y CocoaPods
 - Para Android: Android Studio con un emulador configurado
@@ -62,7 +64,7 @@ Backend previsto: **NestJS + Prisma + PostgreSQL + Firebase** (Auth, FCM, Storag
 
 ```bash
 git clone https://github.com/DMI-2026/Citalis.git
-cd Citalis/citalis_app
+cd Citalis/apps/mobile
 flutter pub get
 ```
 
@@ -86,13 +88,16 @@ flutter build web --release --base-href "/"
 # Salida: build/web
 ```
 
-### Análisis estático
+### Verificación (antes de cada commit)
 
 ```bash
 flutter analyze
+flutter test
 ```
 
-El proyecto debe pasar `flutter analyze` sin errores. Las reglas están declaradas en `analysis_options.yaml`.
+Las dos deben terminar sin errores. Las reglas del analizador están en `analysis_options.yaml`.
+
+Las pruebas viven en `test/`. Como en `flutter test` no hay red, las pruebas desactivan la descarga de Google Fonts (`GoogleFonts.config.allowRuntimeFetching = false`) y las imágenes de red caen al fallback de `BusinessImage`. Si cambias un texto de una pantalla, actualiza su prueba en el mismo commit; no la borres para que pase.
 
 ---
 
@@ -106,7 +111,8 @@ lib/
 ├── data/
 │   └── mock_data.dart       # Modelos y AppState con datos semilla
 ├── widgets/
-│   └── business_image.dart  # Image.network con fallback + helpers de enlaces
+│   ├── business_image.dart  # Image.network con fallback + helpers de enlaces
+│   └── business_card.dart   # Reservado (vacío por ahora)
 └── screens/
     ├── welcome_screen.dart
     ├── login_screen.dart
@@ -127,11 +133,16 @@ lib/
         ├── business_services_tab.dart  # Req 2.4
         ├── business_clients_tab.dart   # Req 4.1, 4.2
         └── business_profile_tab.dart   # Req 2.2, 2.3, 2.5, 3.1
+
+test/
+└── widget_test.dart         # Pantalla de bienvenida
 ```
 
 Documentación auxiliar (en la raíz del monorepo):
 
-- [`../docs/historias-de-usuario.md`](../docs/historias-de-usuario.md) — Historias de usuario y requerimientos funcionales organizados en 7 módulos.
+- [`docs/historias-de-usuario.md`](../../docs/historias-de-usuario.md) · historias de usuario y requerimientos en 7 módulos.
+- [`docs/02-prd.md`](../../docs/02-prd.md) · producto (PRD).
+- [`docs/06-convenciones.md`](../../docs/06-convenciones.md) · convenciones del equipo.
 
 ---
 
@@ -174,7 +185,7 @@ docs(readme): documentar rutas internas
 chore(deps): bump qr_flutter a 4.1.0
 ```
 
-Rama por tarea sobre `main`, PR hacia `main` con al menos un revisor del equipo.
+Usamos git flow: cada tarea en una rama `feature/<tema>` que sale de `develop` y vuelve a `develop` por PR, con al menos un revisor del equipo. Nunca se hace push directo a `main` ni a `develop`. Detalle en el [README raíz](../../README.md#flujo-de-contribución).
 
 ---
 

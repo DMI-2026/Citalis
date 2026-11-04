@@ -73,7 +73,7 @@
 - **Criterios de aplicación:**
     - El usuario puede solicitar la recuperación y establecer una nueva contraseña.
 
-### Módulo 2. Negocio y servicios
+### Módulo 2. Negocio y servicios - Aquino
 
 **Requerimiento 2.1 — Registro del perfil del negocio**
 
@@ -124,7 +124,7 @@
 - **Criterios de aplicación:**
     - El propietario puede visualizar y descargar el QR de su negocio desde la sección de administración.
 
-### Módulo 3. Agenda y reservas
+### Módulo 3. Agenda y reservas - Karol
 
 **Requerimiento 3.1 — Configuración de horarios**
 
@@ -171,7 +171,7 @@
     - Si el usuario no tiene cuenta, se le pedirá registrarse (Req 1.1) y tras el registro se le redirigirá al negocio que escaneó.
     - Si ya tiene la app y sesión iniciada, entrará directamente a seleccionar servicio y horario.
 
-### Módulo 4. Clientes y seguimiento
+### Módulo 4. Clientes y seguimiento - Pilar
 
 **Requerimiento 4.1 — Vinculación y registro de clientes** 
 
@@ -228,7 +228,7 @@
 - **Reglas de negocio:** La ubicación deberá solicitarse únicamente al ejecutar la función.
 - **Criterios de aplicación:** Funciona con GPS o entrada manual de zona.
 
-### Módulo 6. Notificaciones y conectividad
+### Módulo 6. Notificaciones y conectividad - Katia
 
 **Requerimiento 6.1 — Recordatorios de citas**
 
@@ -254,7 +254,7 @@
 - **Reglas de negocio:** Evitar registros duplicados (doble reserva) en los reintentos.
 - **Criterios de aplicación:** Botón de "Reintentar" disponible en alertas de error de red.
 
-### Módulo 7. Perfil, privacidad y configuración
+### Módulo 7. Perfil, privacidad y configuración - Dani
 
 **Requerimiento 7.1 — Administración del perfil de usuario**
 

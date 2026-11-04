@@ -35,3 +35,17 @@ tmp/
 *.log
 *.swp
 *.swo
+
+# Generados de cada app (también en sus .gitignore propios)
+node_modules/
+build/
+.dart_tool/
+dist/
+coverage/
+.turbo/
+
+# Llaves y firmas que nunca se suben
+# (google-services.json, GoogleService-Info.plist y firebase_options.dart SÍ se versionan)
+*-adminsdk-*.json
+serviceAccount*.json
+key.properties

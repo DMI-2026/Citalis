@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------
-# citalis_back · backend NestJS (monorepo pnpm + turbo)
+# apps/api · backend NestJS (monorepo pnpm + turbo)
 # ---------------------------------------------------------------------------
 
 # Dependencias y compilados
