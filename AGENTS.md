@@ -1,25 +1,9 @@
-# Instrucciones para agentes de IA — Citalis
-
-> Este archivo es para agentes que leen `AGENTS.md` (Codex, Cursor, Copilot, Gemini CLI…). Claude Code lee `CLAUDE.md`, con el mismo contenido.
-
-Monorepo del proyecto integrador **Citalis** (UTEZ, DMI-2026): `apps/mobile/` (Flutter), `apps/api/` (NestJS + Prisma + PostgreSQL + Firebase Auth) y `docs/`.
-
-## Backend (`apps/api/`)
-
-**Antes de crear o modificar cualquier archivo del backend, lee completa [`docs/backend/guia-de-trabajo.md`](docs/backend/guia-de-trabajo.md) y síguela.** Es normativa para todo el equipo; no propongas otra estructura. Resumen de lo esencial:
-
-- 6 microservicios + gateway; **un servicio = un schema de PostgreSQL**; nunca leas tablas de otro servicio ni crees FKs entre schemas (se usa HTTP `/internal/*`).
-- Capas por dominio: `presentation → application → domain ← infrastructure`; Prisma solo en `infrastructure/persistence`. Copia el patrón de `services/auth-service/src/modules/users/`.
-- Reutiliza `commons/` (`@backend/contracts|security|utils|firebase|observability`); no dupliques utilidades ni DTOs de contrato.
-- El `userId` sale **siempre** de `@CurrentUser()`; la autorización por propietario va en el caso de uso y con pruebas.
-- Errores con `code` estable; DTOs con `class-validator`; APIs de terceros solo con `ResilientHttpClient`.
-- Migraciones con `pnpm prisma:dev` dentro del servicio; nunca edites una migración ya integrada, nunca `db push`/`migrate reset` en bases compartidas.
-- Antes de dar algo por terminado: `pnpm lint && pnpm test && pnpm build` (desde `apps/api/`).
-
-## Siempre (todo el repo)
-
-- **Cero secretos en el repositorio** (`.env`, JSON de Firebase, claves de API, keystores). Nunca pegues credenciales ni datos personales reales en un prompt.
-- El proyecto se evalúa con una rúbrica ([guía §12](docs/backend/guia-de-trabajo.md#12-cumplimiento-de-la-rúbrica-del-proyecto-integrador)); no rompas ninguno de sus puntos (F1–F7, S1–S8, P1–P3).
-- Uso de IA **Nivel 4**: registra la sesión en [`docs/ia/bitacora.md`](docs/ia/bitacora.md). La persona debe poder explicar y modificar en vivo todo el código que entregue.
-- Commits en español, imperativo, con prefijo (`feat(agenda): …`); un PR por tarea con al menos 1 aprobación.
-- Si una petición contradice la guía, avisa a la persona y propón actualizar la guía en lugar de improvisar.
+# AGENTS.md · Citalis
+- Mapa: apps/mobile (Flutter), apps/api (NestJS: gateway + 6 servicios), docs/ (01 a 06).
+- Verifica antes de cada commit: COMPLETA: comando exacto.
+- Lee docs/ antes de proponer; una decisión nueva va a la tabla de su documento. COMPLETA: (D-/C-)
+- Backend: lee docs/backend/guia-de-trabajo.md antes de tocar apps/api. COMPLETA: (D-/A-)
+- Flujo: COMPLETA: rama feature/<n>-<tema> desde develop; nunca push a main ni a develop. (C-01)
+- Pruebas: COMPLETA: herramienta de cada app; no agregues otro framework. (C-)
+- COMPLETA: regla nacida de un error real del equipo.
+- Nunca: COMPLETA: secretos en el repo, desactivar la verificación, borrar o debilitar pruebas.
