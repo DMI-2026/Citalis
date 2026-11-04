@@ -6,7 +6,7 @@
 #   docker compose up -d              levanta todo
 #   pnpm smoke                        valida gateway + servicios + BD
 #
-# PostgreSQL NO vive aquí: se alcanza vía DATABASE_URL (Supabase/Neon, o `pnpm db:up` en local;
+# PostgreSQL NO vive aquí: se alcanza vía DATABASE_URL (`pnpm db:up` levanta el contenedor de Postgres;
 # desde un contenedor usa host.docker.internal en lugar de localhost).
 # El único puerto publicado al host es el del gateway; los servicios solo se ven entre sí en la
 # red `citalis` (por nombre de servicio, nunca localhost).

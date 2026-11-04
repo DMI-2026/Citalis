@@ -47,7 +47,8 @@ Decisiones de stack:
 - **Frontend**: Flutter 3 (Dart) con Material 3, tipografía Fraunces + Inter, estado reactivo con `ChangeNotifier`.
 - **Backend**: monorepo **pnpm + Turborepo** de microservicios **NestJS 10** con **Prisma 5** sobre **PostgreSQL**, detrás de un API Gateway. Misma estructura y tecnologías que el backend de nómina del equipo (`RH-Nomina`).
 - **Control de acceso**: **Firebase Authentication**. La app inicia sesión con Firebase; el gateway verifica el token y reenvía la identidad a los servicios.
-- **Servicios externos**: Firebase Auth (login y sesión), Firebase Cloud Messaging (push) y Firebase Storage (imágenes de negocios); PostgreSQL gestionado en Supabase o Neon.
+- **Servicios externos**: Firebase Auth (login y sesión), Firebase Cloud Messaging (push) Firebase Storage (imágenes de negocios) y una API de geocodificación (Nominatim/OpenStreetMap) para ubicar direcciones.
+- **Despliegue del backend**: contenedores Docker (un `Dockerfile` para el gateway y los 6 servicios, orquestados con `docker-compose`); PostgreSQL también corre en un contenedor (`docker-compose.db.yml`).
 - **Hosting demo del frontend web**: Vercel.
 
 ### Módulos y microservicios

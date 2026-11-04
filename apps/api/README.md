@@ -70,7 +70,7 @@ cp .env.example .env          # en PowerShell: Copy-Item .env.example .env
 
 # 3. Base de datos: opción A, Postgres local en Docker (puerto 5433)
 pnpm db:up
-#    Opción B: apunta DATABASE_URL a tu Postgres/Supabase/Neon y omite este paso.
+#    Opción B: apunta DATABASE_URL a otro Postgres y omite este paso.
 
 # 4. Cliente Prisma + migraciones (crea los 6 schemas y sus tablas)
 pnpm db:generate
@@ -103,12 +103,11 @@ Todo operativo.
 | Escenario | `DATABASE_URL` |
 |---|---|
 | Docker local (`pnpm db:up`) | `postgresql://citalis:citalis_dev@localhost:5433/citalis` (valor por defecto de `.env.example`) |
-| Supabase / Neon | La cadena **directa** (no la del *pooler*) con `?sslmode=require`; la necesitan las migraciones |
 | Postgres instalado en tu PC | `postgresql://USUARIO:PASSWORD@localhost:5432/citalis` (crea antes la base: `createdb citalis`) |
 
 Si la contraseña tiene caracteres especiales (`@`, `/`, `#`…), codifícalos en la URL (`@` → `%40`).
 
-El cliente necesita permiso para crear extensiones (`citext`, `pg_trgm`, `btree_gist`) y schemas; en Supabase/Neon el rol por defecto ya puede.
+El cliente necesita permiso para crear extensiones (`citext`, `pg_trgm`, `btree_gist`) y schemas; el usuario del contenedor de `docker-compose.db.yml` ya puede.
 
 ### Ejecutar un solo microservicio
 
