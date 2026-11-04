@@ -300,7 +300,7 @@ pnpm prisma:dev --name descripcion_corta_del_cambio
 ### Reglas
 
 1. **Nunca edites una migración que ya está en `develop` o en `main`** ni una ya aplicada en otra base. Corrige con una migración nueva.
-2. **Nunca uses `prisma db push`** ni `prisma migrate reset` sobre una base compartida (Supabase/Neon del equipo). Si `migrate dev` pide resetear, **responde no** y pregunta al equipo.
+2. **Nunca uses `prisma db push`** ni `prisma migrate reset` sobre una base compartida del equipo. Si `migrate dev` pide resetear, **responde no** y pregunta al equipo.
 3. En bases compartidas/remotas solo se aplica `pnpm db:migrate` (`migrate deploy`). `migrate dev` (crear migraciones) se hace **en tu Postgres local** (`pnpm db:up`), porque necesita crear una base *shadow*.
 4. Si dos personas cambian el schema del mismo servicio, la segunda rehace su migración tras actualizar desde `develop` (coordínense por el grupo antes de empezar).
 5. El `schema.prisma` y su migración **van en el mismo commit**. Tras cambiar el schema, `pnpm db:generate` regenera el cliente.
@@ -561,7 +561,7 @@ Marca cada punto antes de pedir revisión:
 - Verificar tokens de Firebase dentro de un servicio de dominio (lo hace el gateway).
 - Devolver entidades de Prisma crudas, o aceptar `userId` desde el cliente.
 - Editar migraciones ya integradas, `db push`, `migrate reset` en bases compartidas.
-- Subir `.env`, JSON de cuenta de servicio, claves de API, keystores o `google-services.json`.
+- Subir `.env`, JSON de cuenta de servicio (`*-adminsdk-*.json`, `serviceAccount*.json`), claves de API o keystores. La configuración de Firebase de la app (`google-services.json`, `GoogleService-Info.plist`, `firebase_options.dart`) **sí** se versiona: solo identifica el proyecto y lo protegen las reglas.
 - Lógica de negocio en el gateway, en `commons/` o en `scripts/`.
 - Duplicar tipos/DTOs de contrato en lugar de `@backend/contracts`; copiar y pegar utilidades entre servicios en lugar de `commons/`.
 - `console.log`, `any`, `// @ts-ignore`, `catch {}` vacío.
@@ -575,8 +575,8 @@ Cosas que **hay que decidir y documentar** (abrir PR/ADR cuando se resuelvan):
 
 | # | Decisión | Por qué importa | Límite sugerido |
 |---|---|---|---|
-| 1 | **Proveedor de geocodificación** (F3): OpenStreetMap/Nominatim, Geoapify, Google… | Es la API de terceros que exige la rúbrica; define `GEOCODING_BASE_URL`/`GEOCODING_API_KEY` | Antes de H3 |
-| 2 | **Hosting del backend con HTTPS** y de la base (Supabase/Neon/EC2/Render) | S2 y las pruebas en dispositivo físico (P1/P2) necesitan un backend alcanzable por HTTPS | Antes de H4 |
+| 1 | ✅ **Geocodificación** (F3): Nominatim/OpenStreetMap, sin llave; requiere `User-Agent` propio y máximo 1 solicitud/s | Es la API de terceros que exige la rúbrica; define `GEOCODING_BASE_URL` | Antes de H3 |
+| 2 | ✅ **Despliegue con Docker**: `Dockerfile` + `docker-compose.yml` (gateway y servicios) y `docker-compose.db.yml` (PostgreSQL); HTTPS por delante del gateway | S2 y las pruebas en dispositivo físico (P1/P2) necesitan un backend alcanzable por HTTPS | Antes de H4 |
 | 3 | **Firebase Storage + `storage.rules`** por propietario, con pruebas de reglas | S4 y P1: foto subida a la nube con acceso restringido al dueño | Antes de H3 |
 | 4 | Cómo se guarda y expira el **token FCM** y quién envía los recordatorios (cron en notificaciones-service) | P3/6.1/O6 | Antes de H3 |
 | 5 | **Roles de BD por servicio** con permisos solo sobre su schema (mínimo privilegio) | Refuerza S4; hoy todos los servicios usan la misma credencial | Antes de H7 |
