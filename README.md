@@ -122,7 +122,8 @@ Más detalle en [`apps/mobile/README.md`](apps/mobile/README.md).
 │   ├── historias-de-usuario.md     # Requerimientos por módulo
 │   ├── db/                         # Modelo de datos (modelo-datos.md, schema.sql, diagrama ER)
 │   ├── backend/
-│   │   └── guia-de-trabajo.md      # Guía normativa del backend (para el equipo y las IA)
+│   │   ├── guia-de-trabajo.md      # Guía normativa del backend (para el equipo y las IA)
+│   │   └── endpoints-app.md        # Endpoints que necesita la app, por servicio y prioridad
 │   ├── planeacion/                 # Documento de planeación (H1)
 │   ├── estado.md                   # Estado de requisitos y seguridad
 │   ├── permisos.md                 # Documento de permisos del dispositivo (H2–H6)
@@ -168,6 +169,7 @@ Más detalle en [`apps/mobile/README.md`](apps/mobile/README.md).
 | [`docs/db/modelo-datos.md`](docs/db/modelo-datos.md) · [`schema.sql`](docs/db/schema.sql) | Modelo de datos lógico y decisiones de diseño |
 | [`apps/api/README.md`](apps/api/README.md) | Cómo levantar y probar los microservicios |
 | [`docs/backend/guia-de-trabajo.md`](docs/backend/guia-de-trabajo.md) | **Qué va en cada carpeta, qué hay en `commons`, flujo de trabajo y cumplimiento de la rúbrica** |
+| [`docs/backend/endpoints-app.md`](docs/backend/endpoints-app.md) | Contrato app ⇄ backend: endpoints que consume cada pantalla, en orden de implementación |
 | [`docs/estado.md`](docs/estado.md) · [`permisos.md`](docs/permisos.md) · [`pruebas.md`](docs/pruebas.md) | Seguimiento y evidencias del proyecto integrador |
 | [`docs/ia/bitacora.md`](docs/ia/bitacora.md) | Bitácora de uso de IA (Nivel 4) |
 
