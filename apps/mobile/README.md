@@ -31,7 +31,7 @@ El proyecto implementa dos roles operando sobre una misma cuenta de usuario, sig
 - Directorio de clientes vinculados por reservas, con historial y stats por cliente.
 - Perfil del negocio editable: información, horarios semanales por día, código QR único con enlace profundo y descarga.
 
-El estado se mantiene en memoria (`AppState` basado en `ChangeNotifier`) con datos semilla; cuando se integre el backend, estas lecturas se moverán a servicios HTTP sin cambiar los widgets.
+La app sigue **MVVM** (guía oficial de arquitectura de Flutter, decisión A-02 en [`docs/04-arquitectura.md`](../../docs/04-arquitectura.md)): pantallas → ViewModels (`ChangeNotifier`) → repositorios. Hoy los repositorios son *fake* (datos semilla en memoria con 200 ms de latencia simulada); al integrar el backend se escriben las implementaciones remotas y se registran en `lib/config/dependencies.dart` sin cambiar pantallas ni ViewModels. Los endpoints que necesita cada repositorio están en [`docs/backend/endpoints-app.md`](../../docs/backend/endpoints-app.md).
 
 ---
 
@@ -45,9 +45,10 @@ El estado se mantiene en memoria (`AppState` basado en `ChangeNotifier`) con dat
 | Imágenes de red | `Image.network` con fallback editorial |
 | Enlaces externos | `url_launcher` |
 | Códigos QR | `qr_flutter` |
+| Arquitectura | MVVM · `provider` (inyección de dependencias) · `ChangeNotifier` |
 | Hosting demo | Vercel (SPA estática) |
 
-Backend: **NestJS + Prisma + PostgreSQL + Firebase** (Auth, FCM, Storage) en [`apps/api/`](../api/README.md). La app todavía no se conecta a él: trabaja con datos semilla.
+Backend: **NestJS + Prisma + PostgreSQL + Firebase** (Auth, FCM, Storage) en [`apps/api/`](../api/README.md). La app todavía no se conecta a él: trabaja con repositorios fake y datos semilla.
 
 ---
 
@@ -101,42 +102,35 @@ Las pruebas viven en `test/`. Como en `flutter test` no hay red, las pruebas des
 
 ---
 
-## Estructura del proyecto
+## Estructura del proyecto (MVVM)
 
 ```
 lib/
-├── main.dart                # Entry point y routing por URL
-├── theme/
-│   └── app_theme.dart       # Tokens de diseño (color, tipografía, radios)
+├── main.dart                     # Entry point: registra los repositorios (provider) y arranca la app
+├── config/dependencies.dart      # Qué implementación de cada repositorio se usa (hoy: fake)
+├── routing/app_router.dart       # Rutas por URL (deep links / web)
+├── domain/models/                # Modelos inmutables: Business, Service, Reservation, MyBusiness…
 ├── data/
-│   └── mock_data.dart       # Modelos y AppState con datos semilla
-├── widgets/
-│   ├── business_image.dart  # Image.network con fallback + helpers de enlaces
-│   └── business_card.dart   # Reservado (vacío por ahora)
-└── screens/
-    ├── welcome_screen.dart
-    ├── login_screen.dart
-    ├── register_screen.dart
-    ├── home_screen.dart           # Scaffold cliente con 4 tabs
-    ├── business_detail_screen.dart
-    ├── booking_screen.dart
-    ├── booking_confirmation_screen.dart
-    ├── reservations_screen.dart
-    ├── favorites_screen.dart
-    ├── profile_screen.dart        # Perfil + switch de modo
-    ├── settings_screens.dart      # Edit perfil, contraseña, notif, pagos, ubicación
-    ├── legal_screens.dart         # Privacidad, términos, ayuda
-    ├── register_business_screen.dart
-    └── business/
-        ├── business_home_screen.dart   # Scaffold empresa con 4 tabs
-        ├── business_agenda_tab.dart    # Req 3.4
-        ├── business_services_tab.dart  # Req 2.4
-        ├── business_clients_tab.dart   # Req 4.1, 4.2
-        └── business_profile_tab.dart   # Req 2.2, 2.3, 2.5, 3.1
+│   ├── repositories/<dominio>/   # <x>_repository.dart (interfaz) + <x>_repository_fake.dart
+│   └── fake/                     # FakeStore (backend en memoria) y datos semilla
+├── utils/result.dart             # Result<T> = Ok | Failure(AppException{code, message})
+└── ui/
+    ├── core/                     # theme, ViewModel base, widgets (BusinessImage, Loading/ErrorView), utils
+    └── <feature>/                # auth, home, explore, business_detail, booking, reservations,
+        ├── view_models/          #   favorites, profile, settings, legal, business_owner
+        └── widgets/              # pantallas (solo pintan y delegan en su ViewModel)
 
 test/
-└── widget_test.dart         # Pantalla de bienvenida
+├── widget_test.dart              # Pantalla de bienvenida
+└── ui/view_models_test.dart      # ViewModels de favoritos, reservas y reserva (anti doble reserva)
 ```
+
+**Reglas de la arquitectura:**
+
+- **Pantalla** = `StatelessWidget` público que crea su ViewModel con `ChangeNotifierProvider(create: ...)` y una vista privada que lo lee con `context.watch`. Solo guarda estado efímero de UI (controladores de texto, tab seleccionado).
+- **ViewModel** = extiende `ViewModel` (`ui/core/view_model.dart`); expone `isLoading`, `errorMessage` y datos; las acciones devuelven `Future<String?>` (mensaje de error o `null`) o un `Result`. Nunca importa widgets ni `BuildContext`.
+- **Repositorio** = única fuente de datos. Devuelve `Result<T>` (no lanza excepciones). Los que tienen datos que cambian extienden `ChangeNotifier` y notifican tras cada escritura; los ViewModels interesados se suscriben y recargan.
+- Las pantallas **no** importan repositorios fake ni `FakeStore`.
 
 Documentación auxiliar (en la raíz del monorepo):
 
@@ -155,9 +149,9 @@ La aplicación usa rutas nombradas con `onGenerateRoute` para habilitar deep lin
 | `/` o `/welcome` | Bienvenida |
 | `/login`, `/register` | Autenticación |
 | `/home`, `/reservations`, `/favorites`, `/profile` | Tabs cliente |
-| `/business?id={id}` | Detalle de negocio |
-| `/booking?id={id}&s={idx}` | Flujo de reserva |
-| `/confirmation?id={id}` | Confirmación |
+| `/business?id={businessId}` | Detalle de negocio |
+| `/booking?id={businessId}&service={serviceId}` | Flujo de reserva |
+| `/confirmation?id={reservationId}` | Confirmación |
 | `/register-business` | Onboarding de negocio |
 | `/business-home` | Dashboard empresa |
 | `/edit-profile`, `/change-password`, `/notifications`, `/payments`, `/location` | Configuración de cuenta |

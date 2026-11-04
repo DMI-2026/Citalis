@@ -31,6 +31,13 @@ Uso de IA **Nivel 4 — IA completa** (enunciado del proyecto integrador): se pe
 
 ## Sesiones
 
+### 2026-11-04 · _(integrante: completar)_ · Claude Code (Claude Opus 5.5)
+- **Tarea / requisito:** refactor del frontend (`apps/mobile/`) a arquitectura MVVM y contrato de endpoints para el backend · apoyo a F2, F4, F6, F7.
+- **Prompt (resumen):** "Haz el refactor del frontend a una arquitectura MVVM y genera un documento con los endpoints que necesita el front para funcionar, para que sea más rápido avanzar en el back". Contexto: el código de la app, `docs/backend/guia-de-trabajo.md`, `docs/db/modelo-datos.md`, `@backend/contracts` y las rutas del gateway.
+- **Resultado:** `lib/` reorganizado en `domain/models`, `data/repositories` (9 interfaces + implementaciones fake sobre un `FakeStore` en memoria), `ui/<feature>/{view_models,widgets}`, `config/dependencies.dart` (provider) y `routing/`; se eliminó `AppState`/`mock_data.dart`. Estados cargando/error/vacío con `LoadingView`/`ErrorView`. Pruebas de ViewModels. Documento [`docs/backend/endpoints-app.md`](../backend/endpoints-app.md) con 32 endpoints (método, ruta, servicio, request/response, errores, reglas de acceso, endpoints internos y orden de implementación).
+- **Qué revisé / cambié:** `flutter analyze` sin issues, `flutter test` en verde (la prueba de bienvenida ahora inyecta los repositorios fake), y una prueba de humo temporal que recorrió login → explorar → detalle → reservar → reservas → perfil → registrar negocio → tabs de empresa sin excepciones. Cambios de comportamiento: deep links `/booking` usan `service={serviceId}`; `/business` y `/confirmation` sin `id` llevan a bienvenida; los chips de Explorar salen del catálogo (incluye Masajes y Depilación); cambiar contraseña valida que coincidan.
+- **Entendimiento:** _(cada integrante completa lo que puede explicar: flujo pantalla → ViewModel → repositorio, cómo cambiar un repositorio fake por uno remoto y qué endpoint usa cada pantalla)_
+
 ### 2026-10-19 · _(integrante: completar)_ · Claude Code (Claude Sonnet 5.5)
 - **Tarea / requisito:** estructura inicial del backend (`apps/api/`), conexión a la BD, endpoint de prueba por microservicio, guía de trabajo y READMEs · apoyo a F1, F5, S2–S5, S7.
 - **Prompt (resumen):** se entregaron como contexto el modelo de datos (`docs/db/modelo-datos.md`), las historias de usuario, el backend de nómina (`RH-Nomina`) como estructura objetivo y la rúbrica del integrador; se pidió armar gateway, servicios y commons con las mismas tecnologías (NestJS, Prisma, PostgreSQL), Firebase para el control de acceso, un endpoint de prueba por servicio y documentación para que el equipo trabaje con una sola arquitectura.

@@ -2,7 +2,7 @@
 
 Seguimiento de requisitos del proyecto integrador. Se actualiza en cada PR que cambia el estado de algo. Leyenda: ✅ listo · 🟡 parcial · ⏳ pendiente · — no aplica a esa capa.
 
-_Última actualización: 2026-10-19._
+_Última actualización: 2026-11-04._
 
 ## Requisitos funcionales (enunciado §2)
 
@@ -13,7 +13,7 @@ _Última actualización: 2026-10-19._
 | F3 | ≥ 1 API de terceros con timeout, errores y credencial fuera del repo | 🟡 `ResilientHttpClient` listo | ⏳ | Falta elegir proveedor de geocodificación |
 | F4 | ≥ 6 pantallas con navegación coherente | — | 🟡 Prototipo con datos semilla | Falta conectar al backend |
 | F5 | Formularios validados en cliente y servidor | 🟡 `ValidationPipe` estricto + DTOs | ⏳ | |
-| F6 | Estados cargando/datos/error/vacío | — | ⏳ | |
+| F6 | Estados cargando/datos/error/vacío | — | 🟡 ViewModels con `LoadingView`/`ErrorView`/vacío (MVVM) | Falta verlos con el backend real |
 | F7 | Sin conexión: detecta, indica y reintenta | 🟡 Reintento seguro (idempotencia) pendiente en reservas | ⏳ | |
 
 ## Seguridad (enunciado §3)
