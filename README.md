@@ -9,7 +9,7 @@ Este repositorio es un **monorepo** con dos aplicaciones y su documentación:
 | Carpeta | Rol | Estado |
 |---|---|---|
 | [`apps/mobile/`](apps/mobile/) | Cliente Flutter multiplataforma (iOS, Android y Web) | En desarrollo activo (prototipo con datos semilla) |
-| [`apps/api/`](apps/api/) | Backend: API Gateway + 6 microservicios NestJS, Prisma y PostgreSQL, con Firebase Auth | **Estructura inicial lista**: conexión a BD, endpoint de prueba por servicio, Docker y CI. Lógica de negocio en construcción |
+| [`apps/api/`](apps/api/) | Backend: API Gateway + 6 microservicios NestJS, Prisma y PostgreSQL, con Firebase Auth | **Estructura inicial lista**: conexión a BD, endpoint de prueba por servicio y Docker. Lógica de negocio en construcción |
 | [`docs/`](docs/) | Historias de usuario, modelo de datos, guía de trabajo del backend y documentos de la rúbrica | Vigente |
 
 ---
@@ -195,12 +195,12 @@ Cada integrante es responsable de al menos una capacidad (base u optativa) o req
 - Cada tarea en su rama desde `develop`: `feature/<n>-<tema>` (también `docs/`, `fix/`, `test/` o `chore/`); correcciones urgentes en `hotfix/*` desde `main`.
 - Nunca hagas push directo a `main` ni a `develop`: todo entra por PR.
 - Un solo PR por tarea, con descripción clara del cambio (qué, por qué, cómo probarlo) y referencia al requerimiento que atiende (ej. `Req 3.4`).
-- **Al menos una aprobación** de otro integrante antes del merge; el CI del backend debe estar en verde.
+- **Al menos una aprobación** de otro integrante antes del merge. Todavía no hay CI: quien abre el PR corre la verificación de su app y lo indica en la descripción.
 - Mensajes de commit en español, en imperativo y usando prefijos por área (ejemplo: `feat(booking): slot picker con días disabled`, `feat(agenda): calcular disponibilidad`).
 - Backend: sigue la [guía de trabajo](docs/backend/guia-de-trabajo.md) (estructura, convenciones, migraciones y checklist de PR). Si usas una IA, indícale que la lea y registra la sesión en [`docs/ia/bitacora.md`](docs/ia/bitacora.md).
 - Nunca subas secretos (`.env`, JSON de Firebase, claves, keystores): solo `.env.example`.
 
-Antes de abrir un PR del frontend verifica que `flutter analyze` esté limpio. Antes de abrir uno del backend, desde `apps/api/`: `pnpm lint && pnpm test && pnpm build`.
+Antes de abrir un PR del frontend, desde `apps/mobile/`: `flutter analyze && flutter test`. Antes de abrir uno del backend, desde `apps/api/`: `pnpm lint && pnpm test && pnpm build`.
 
 ---
 
