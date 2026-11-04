@@ -56,9 +56,10 @@ app.*.map.json
 *.p12
 *.jks
 *.keystore
-google-services.json
-GoogleService-Info.plist
-firebase_options.dart
+*-adminsdk-*.json
+serviceAccount*.json
+key.properties
+# google-services.json, GoogleService-Info.plist y firebase_options.dart SÍ se versionan
 secrets.json
 
 # Vercel
