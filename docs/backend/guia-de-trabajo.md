@@ -2,7 +2,7 @@
 
 > **Documento normativo para el equipo y para las IA que usemos** (Claude Code, Copilot, Cursor, ChatGPT…).
 > Si eres una IA: **lee este archivo completo antes de generar o modificar código en `apps/api/`** y síguelo al pie de la letra. Si algo del encargo contradice esta guía, no improvises: avisa a la persona y propón actualizar la guía.
-> Si eres persona: pega la ruta de este archivo en tu primer prompt (`docs/backend/guia-de-trabajo.md`). Existen `apps/api/CLAUDE.md` y `AGENTS.md` que ya apuntan aquí.
+> Si eres persona: pega la ruta de este archivo en tu primer prompt (`docs/backend/guia-de-trabajo.md`). El `AGENTS.md` de la raíz ya apunta aquí.
 
 **Objetivo:** que los seis servicios se vean como escritos por una sola persona: mismas carpetas, mismos nombres, mismas respuestas de error, mismas pruebas. **Nadie crea su propia arquitectura.**
 
@@ -196,7 +196,7 @@ Verifica el token de Firebase, resuelve el usuario interno en `auth-service` (ca
 
 Ejemplo: *Req 2.4 — crear un servicio del catálogo* en `negocios-service`.
 
-1. **Rama:** `git switch -c feat/negocios-crear-servicio` desde `main` actualizado (§11).
+1. **Rama:** `git switch develop && git pull && git switch -c feature/negocios-crear-servicio` (§11.1).
 2. **Lee el requerimiento** en `historias-de-usuario.md` y anota sus *reglas de negocio* y *criterios de aplicación*: se convierten en validaciones y pruebas.
 3. **Define el contrato primero** (endpoint, entrada, salida, errores). Si otro servicio lo consumirá, agrega el DTO a `@backend/contracts`.
 4. **Datos:** si hace falta una tabla/columna, edita el `schema.prisma` **de tu servicio** y crea la migración (§7). Nunca toques el schema de otro servicio.
@@ -299,10 +299,10 @@ pnpm prisma:dev --name descripcion_corta_del_cambio
 
 ### Reglas
 
-1. **Nunca edites una migración que ya está en `main`** ni una ya aplicada en otra base. Corrige con una migración nueva.
+1. **Nunca edites una migración que ya está en `develop` o en `main`** ni una ya aplicada en otra base. Corrige con una migración nueva.
 2. **Nunca uses `prisma db push`** ni `prisma migrate reset` sobre una base compartida (Supabase/Neon del equipo). Si `migrate dev` pide resetear, **responde no** y pregunta al equipo.
 3. En bases compartidas/remotas solo se aplica `pnpm db:migrate` (`migrate deploy`). `migrate dev` (crear migraciones) se hace **en tu Postgres local** (`pnpm db:up`), porque necesita crear una base *shadow*.
-4. Si dos personas cambian el schema del mismo servicio, la segunda rehace su migración tras actualizar desde `main` (coordínense por el grupo antes de empezar).
+4. Si dos personas cambian el schema del mismo servicio, la segunda rehace su migración tras actualizar desde `develop` (coordínense por el grupo antes de empezar).
 5. El `schema.prisma` y su migración **van en el mismo commit**. Tras cambiar el schema, `pnpm db:generate` regenera el cliente.
 6. Cambios que afectan a otro servicio (p. ej. quitar un campo que otro consume) se avisan en el PR y se actualiza `@backend/contracts`.
 7. Los catálogos (categorías, municipios) son **datos semilla en la migración**: agregar una categoría = migración con `INSERT … ON CONFLICT DO NOTHING`.
@@ -415,7 +415,20 @@ Toda API externa (geocodificación, FCM…) se consume así: un `*.http-client.t
 
 ### 11.1 Ramas
 
-Se trabaja **solo por Pull Request** hacia `main` (nadie hace push directo; conviene activar la protección de rama en GitHub). Una rama por tarea con prefijo `feat/`, `fix/`, `refactor/`, `docs/`, `chore/`, `test/`: `feat/agenda-disponibilidad`.
+Usamos **git flow**. Nadie hace push directo a `main` ni a `develop`; todo entra por Pull Request.
+
+| Rama | Sale de | Se fusiona en | Para qué |
+|---|---|---|---|
+| `main` | — | — | Solo versiones entregadas (una por hito) |
+| `develop` | `main` | `main` (vía `release/*`) | Integra el trabajo terminado del tablero |
+| `feature/<tema>` | `develop` | `develop` | Una tarea del tablero: `feature/agenda-disponibilidad` |
+| `fix/<tema>`, `docs/<tema>`, `test/<tema>`, `chore/<tema>` | `develop` | `develop` | Correcciones, documentación, pruebas o mantenimiento |
+| `release/<hito>` | `develop` | `main` y `develop` | Congelar lo que se entrega en un hito: `release/h4` |
+| `hotfix/<tema>` | `main` | `main` y `develop` | Arreglo urgente sobre una versión ya entregada |
+
+Antes de abrir el PR actualiza tu rama con `develop` (`git pull origin develop`) y resuelve los conflictos en tu rama, no en `develop`.
+
+El trabajo se organiza con **Scrumban**: las tareas viven en un tablero (Por hacer → En curso → En revisión → Hecho) con límite de tareas en curso por persona; cada tarjeta es una rama y un PR.
 
 ### 11.2 Commits
 
@@ -433,7 +446,9 @@ Un commit = un cambio coherente. El `schema.prisma` y su migración van juntos.
 
 - Un PR por tarea, que **referencie el requerimiento** (`Req 3.3`) y la rúbrica si aplica (`F2`).
 - Descripción: qué cambia · por qué · cómo probarlo (comandos o `curl`).
-- **Mínimo 1 aprobación** de otro integrante (la rúbrica lo exige; el autor no se aprueba a sí mismo). CI en verde.
+- **Mínimo 1 aprobación** de otro integrante (la rúbrica lo exige; el autor no se aprueba a sí mismo).
+- Todavía no hay CI: quien abre el PR corre `pnpm lint && pnpm test && pnpm build` y lo indica en la descripción.
+- El PR apunta a `develop` (o a `main` solo si es `release/*` o `hotfix/*`).
 - Debe cumplir el checklist de §13.
 
 ### 11.4 Uso de IA — Nivel 4 (bitácora obligatoria)
