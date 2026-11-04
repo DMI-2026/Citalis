@@ -1,8 +1,8 @@
 # Instrucciones para agentes de IA — Citalis
 
-Monorepo del proyecto integrador **Citalis** (UTEZ, DMI-2026): `citalis_app/` (Flutter), `citalis_back/` (NestJS + Prisma + PostgreSQL + Firebase Auth) y `docs/`.
+Monorepo del proyecto integrador **Citalis** (UTEZ, DMI-2026): `apps/mobile/` (Flutter), `apps/api/` (NestJS + Prisma + PostgreSQL + Firebase Auth) y `docs/`.
 
-## Backend (`citalis_back/`)
+## Backend (`apps/api/`)
 
 **Antes de crear o modificar cualquier archivo del backend, lee completa [`docs/backend/guia-de-trabajo.md`](docs/backend/guia-de-trabajo.md) y síguela.** Es normativa para todo el equipo; no propongas otra estructura. Resumen de lo esencial:
 
@@ -12,7 +12,7 @@ Monorepo del proyecto integrador **Citalis** (UTEZ, DMI-2026): `citalis_app/` (F
 - El `userId` sale **siempre** de `@CurrentUser()`; la autorización por propietario va en el caso de uso y con pruebas.
 - Errores con `code` estable; DTOs con `class-validator`; APIs de terceros solo con `ResilientHttpClient`.
 - Migraciones con `pnpm prisma:dev` dentro del servicio; nunca edites una migración ya integrada, nunca `db push`/`migrate reset` en bases compartidas.
-- Antes de dar algo por terminado: `pnpm lint && pnpm test && pnpm build` (desde `citalis_back/`).
+- Antes de dar algo por terminado: `pnpm lint && pnpm test && pnpm build` (desde `apps/api/`).
 
 ## Siempre (todo el repo)
 

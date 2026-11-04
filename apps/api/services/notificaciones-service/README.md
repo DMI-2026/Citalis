@@ -19,7 +19,7 @@ Preferencias de notificación, tokens FCM por dispositivo y envío de recordator
 
 ## Variables de entorno
 
-Se leen del único `.env` de la raíz de `citalis_back/` (ver `.env.example`).
+Se leen del único `.env` de la raíz de `apps/api/` (ver `.env.example`).
 
 | Variable | Descripción | Default |
 |---|---|---|
@@ -32,7 +32,7 @@ Se leen del único `.env` de la raíz de `citalis_back/` (ver `.env.example`).
 ## Cómo levantar en local
 
 ```bash
-# desde citalis_back/ (una sola vez: pnpm install, cp .env.example .env, pnpm db:generate, pnpm db:migrate)
+# desde apps/api/ (una sola vez: pnpm install, cp .env.example .env, pnpm db:generate, pnpm db:migrate)
 pnpm --filter @backend/notificaciones-service start:dev
 curl http://localhost:3006/notifications/test
 ```

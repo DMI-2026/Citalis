@@ -1,4 +1,4 @@
-# citalis_back · Backend de Citalis
+# apps/api · Backend de Citalis
 
 Backend de **Citalis** como monorepo **pnpm + Turborepo** de microservicios **NestJS 10** con **Prisma 5** sobre **PostgreSQL**, detrás de un **API Gateway**. El control de acceso se delega en **Firebase Authentication**. La estructura replica la de `RH-Nomina/apps/nomina-backend`.
 
@@ -56,7 +56,7 @@ El modelo de datos lógico está en [`docs/db/modelo-datos.md`](../docs/db/model
 
 ## Puesta en marcha (desarrollo)
 
-Todos los comandos se ejecutan **desde `citalis_back/`**.
+Todos los comandos se ejecutan **desde `apps/api/`**.
 
 ```bash
 # 1. Dependencias (necesitas pnpm 8.15.0; compruébalo con `pnpm -v`)
@@ -194,7 +194,7 @@ Dentro de Docker `localhost` es el propio contenedor: si la base corre en tu má
 ## Estructura
 
 ```
-citalis_back/
+apps/api/
 ├── gateway/                 # API Gateway (proxy + auth Firebase)
 ├── services/<servicio>/     # 6 microservicios (src/modules/<dominio>/{presentation,application,domain,infrastructure})
 │   └── prisma/              # schema.prisma + migrations del servicio

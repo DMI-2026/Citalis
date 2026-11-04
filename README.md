@@ -8,8 +8,8 @@ Este repositorio es un **monorepo** con dos aplicaciones y su documentación:
 
 | Carpeta | Rol | Estado |
 |---|---|---|
-| [`citalis_app/`](citalis_app/) | Cliente Flutter multiplataforma (iOS, Android y Web) | En desarrollo activo (prototipo con datos semilla) |
-| [`citalis_back/`](citalis_back/) | Backend: API Gateway + 6 microservicios NestJS, Prisma y PostgreSQL, con Firebase Auth | **Estructura inicial lista**: conexión a BD, endpoint de prueba por servicio, Docker y CI. Lógica de negocio en construcción |
+| [`apps/mobile/`](apps/mobile/) | Cliente Flutter multiplataforma (iOS, Android y Web) | En desarrollo activo (prototipo con datos semilla) |
+| [`apps/api/`](apps/api/) | Backend: API Gateway + 6 microservicios NestJS, Prisma y PostgreSQL, con Firebase Auth | **Estructura inicial lista**: conexión a BD, endpoint de prueba por servicio, Docker y CI. Lógica de negocio en construcción |
 | [`docs/`](docs/) | Historias de usuario, modelo de datos, guía de trabajo del backend y documentos de la rúbrica | Vigente |
 
 ---
@@ -29,7 +29,7 @@ El detalle funcional de ambos roles vive en [`docs/historias-de-usuario.md`](doc
 
 ```
 ┌────────────────────────────┐   HTTPS · Bearer <token ID Firebase>   ┌─────────────────────────────────────┐
-│        citalis_app         │ ─────────────────────────────────────► │      citalis_back / gateway :3000   │
+│        apps/mobile         │ ─────────────────────────────────────► │      apps/api / gateway :3000   │
 │  Flutter · Material 3      │                                        │  verifica token · CORS · rate limit │
 │  iOS / Android / Web       │                                        └───┬────┬────┬────┬────┬─────────────┘
 └─────────────┬──────────────┘                                            ▼    ▼    ▼    ▼    ▼    ▼
@@ -80,10 +80,10 @@ La demo trabaja con datos semilla en memoria; aún no está conectada al backend
 
 Cada subproyecto tiene su propio README con el detalle.
 
-**Backend** (requiere Node 20, pnpm 8.15 y Docker; ver [`citalis_back/README.md`](citalis_back/README.md)):
+**Backend** (requiere Node 20, pnpm 8.15 y Docker; ver [`apps/api/README.md`](apps/api/README.md)):
 
 ```bash
-cd citalis_back
+cd apps/api
 pnpm install
 cp .env.example .env     # completa FIREBASE_PROJECT_ID y revisa DATABASE_URL
 pnpm db:up               # PostgreSQL local en Docker (puerto 5433)
@@ -95,12 +95,12 @@ pnpm smoke               # valida que todo responde y que cada servicio ve su BD
 **Frontend**:
 
 ```bash
-cd citalis_app
+cd apps/mobile
 flutter pub get
 flutter run -d chrome --web-port=8080
 ```
 
-Más detalle en [`citalis_app/README.md`](citalis_app/README.md).
+Más detalle en [`apps/mobile/README.md`](apps/mobile/README.md).
 
 ---
 
@@ -123,10 +123,10 @@ Más detalle en [`citalis_app/README.md`](citalis_app/README.md).
 │   ├── pruebas.md                  # Evidencia de pruebas (H5)
 │   ├── distribucion/               # Expediente de liberación (H7)
 │   └── ia/bitacora.md              # Bitácora de uso de IA (Nivel 4)
-├── citalis_app/                    # Frontend Flutter
+├── apps/mobile/                    # Frontend Flutter
 │   ├── lib/ · test/ · pubspec.yaml
 │   └── README.md
-└── citalis_back/                   # Backend NestJS (monorepo pnpm + turbo)
+└── apps/api/                   # Backend NestJS (monorepo pnpm + turbo)
     ├── gateway/                    # API Gateway: auth Firebase, proxy, límites
     ├── services/
     │   ├── auth-service/           # M1 · 7.1  — usuarios (schema auth)
@@ -154,7 +154,7 @@ Más detalle en [`citalis_app/README.md`](citalis_app/README.md).
 |---|---|
 | [`docs/historias-de-usuario.md`](docs/historias-de-usuario.md) | Qué hace la app, por módulo y requerimiento |
 | [`docs/db/modelo-datos.md`](docs/db/modelo-datos.md) · [`schema.sql`](docs/db/schema.sql) | Modelo de datos lógico y decisiones de diseño |
-| [`citalis_back/README.md`](citalis_back/README.md) | Cómo levantar y probar los microservicios |
+| [`apps/api/README.md`](apps/api/README.md) | Cómo levantar y probar los microservicios |
 | [`docs/backend/guia-de-trabajo.md`](docs/backend/guia-de-trabajo.md) | **Qué va en cada carpeta, qué hay en `commons`, flujo de trabajo y cumplimiento de la rúbrica** |
 | [`docs/estado.md`](docs/estado.md) · [`permisos.md`](docs/permisos.md) · [`pruebas.md`](docs/pruebas.md) | Seguimiento y evidencias del proyecto integrador |
 | [`docs/ia/bitacora.md`](docs/ia/bitacora.md) | Bitácora de uso de IA (Nivel 4) |
@@ -187,7 +187,7 @@ Cada integrante es responsable de al menos una capacidad (base u optativa) o req
 - Backend: sigue la [guía de trabajo](docs/backend/guia-de-trabajo.md) (estructura, convenciones, migraciones y checklist de PR). Si usas una IA, indícale que la lea y registra la sesión en [`docs/ia/bitacora.md`](docs/ia/bitacora.md).
 - Nunca subas secretos (`.env`, JSON de Firebase, claves, keystores): solo `.env.example`.
 
-Antes de abrir un PR del frontend verifica que `flutter analyze` esté limpio. Antes de abrir uno del backend, desde `citalis_back/`: `pnpm lint && pnpm test && pnpm build`.
+Antes de abrir un PR del frontend verifica que `flutter analyze` esté limpio. Antes de abrir uno del backend, desde `apps/api/`: `pnpm lint && pnpm test && pnpm build`.
 
 ---
 

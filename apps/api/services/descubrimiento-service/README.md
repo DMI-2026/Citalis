@@ -19,7 +19,7 @@ Búsqueda de negocios, cercanía/geolocalización, API de terceros de geocodific
 
 ## Variables de entorno
 
-Se leen del único `.env` de la raíz de `citalis_back/` (ver `.env.example`).
+Se leen del único `.env` de la raíz de `apps/api/` (ver `.env.example`).
 
 | Variable | Descripción | Default |
 |---|---|---|
@@ -33,7 +33,7 @@ Se leen del único `.env` de la raíz de `citalis_back/` (ver `.env.example`).
 ## Cómo levantar en local
 
 ```bash
-# desde citalis_back/ (una sola vez: pnpm install, cp .env.example .env, pnpm db:generate, pnpm db:migrate)
+# desde apps/api/ (una sola vez: pnpm install, cp .env.example .env, pnpm db:generate, pnpm db:migrate)
 pnpm --filter @backend/descubrimiento-service start:dev
 curl http://localhost:3005/discover/test
 ```

@@ -1,8 +1,8 @@
 # Citalis · Guía de trabajo del backend
 
 > **Documento normativo para el equipo y para las IA que usemos** (Claude Code, Copilot, Cursor, ChatGPT…).
-> Si eres una IA: **lee este archivo completo antes de generar o modificar código en `citalis_back/`** y síguelo al pie de la letra. Si algo del encargo contradice esta guía, no improvises: avisa a la persona y propón actualizar la guía.
-> Si eres persona: pega la ruta de este archivo en tu primer prompt (`docs/backend/guia-de-trabajo.md`). Existen `citalis_back/CLAUDE.md` y `AGENTS.md` que ya apuntan aquí.
+> Si eres una IA: **lee este archivo completo antes de generar o modificar código en `apps/api/`** y síguelo al pie de la letra. Si algo del encargo contradice esta guía, no improvises: avisa a la persona y propón actualizar la guía.
+> Si eres persona: pega la ruta de este archivo en tu primer prompt (`docs/backend/guia-de-trabajo.md`). Existen `apps/api/CLAUDE.md` y `AGENTS.md` que ya apuntan aquí.
 
 **Objetivo:** que los seis servicios se vean como escritos por una sola persona: mismas carpetas, mismos nombres, mismas respuestas de error, mismas pruebas. **Nadie crea su propia arquitectura.**
 
@@ -54,7 +54,7 @@ Notas de reparto:
 2. **Sin llaves foráneas entre schemas.** Una referencia a otro servicio es una columna `UUID` simple (`owner_id`, `business_id`, `client_id`…) comentada en el `schema.prisma` con su origen. La integridad se valida en el caso de uso (consultando al dueño del dato).
 3. **El gateway no tiene lógica de negocio:** solo enruta, autentica (Firebase), limita tráfico y observa.
 4. **Los servicios no se llaman entre sí a ciegas:** cada llamada pasa por un `http-client` de `infrastructure/http-clients/` que usa el contrato de `@backend/contracts`.
-5. **Toda la configuración sale de variables de entorno** (único `.env` en la raíz de `citalis_back/`). Nada de secretos en el repo.
+5. **Toda la configuración sale de variables de entorno** (único `.env` en la raíz de `apps/api/`). Nada de secretos en el repo.
 6. **Código compartido → `commons/`.** Si lo necesitan dos servicios, va a `commons/`; no se copia y pega entre servicios.
 
 > **Relación con `docs/db/schema.sql`:** `schema.sql` es el **modelo lógico** completo (una sola base). Físicamente se reparte por servicio como arriba, y las migraciones de Prisma (`services/*/prisma/migrations`) son lo que realmente se aplica. Las vistas `v_business_rating` y `v_business_agenda` cruzan servicios, por eso no existen físicamente: se componen en código. Un cambio de modelo se refleja **en ambos**: primero se acuerda en `modelo-datos.md`/`schema.sql` y se implementa en la migración del servicio dueño.
@@ -64,7 +64,7 @@ Notas de reparto:
 ## 2. Qué va en cada carpeta
 
 ```
-citalis_back/
+apps/api/
 ├── gateway/                    ⛔ Solo ruteo/auth/límites. Tocar únicamente para: nueva ruta (routes.ts) o ruta pública.
 ├── services/
 │   └── <servicio>/
@@ -84,7 +84,7 @@ citalis_back/
 └── .env.example                ÚNICO catálogo de variables. Variable nueva ⇒ se agrega aquí con comentario.
 ```
 
-Fuera de `citalis_back/`: `docs/` (documentación del repo), `citalis_app/` (frontend Flutter; el backend **no** depende de él).
+Fuera de `apps/api/`: `docs/` (documentación del repo), `apps/mobile/` (frontend Flutter; el backend **no** depende de él).
 
 ---
 
@@ -118,7 +118,7 @@ src/modules/<dominio>/
 | domain | nada del proyecto salvo tipos | Nest, Prisma, otras capas |
 | infrastructure | domain, Prisma, `@backend/utils` | presentation |
 
-**Referencia viva:** [`services/auth-service/src/modules/users/`](../../citalis_back/services/auth-service/src/modules/users/) implementa el patrón completo (registro idempotente, consulta interna para el gateway, perfil) con pruebas. **Cuando dudes cómo escribir algo, copia su forma.**
+**Referencia viva:** [`services/auth-service/src/modules/users/`](../../apps/api/services/auth-service/src/modules/users/) implementa el patrón completo (registro idempotente, consulta interna para el gateway, perfil) con pruebas. **Cuando dudes cómo escribir algo, copia su forma.**
 
 Patrón del caso de uso con repositorio inyectado por token:
 
@@ -286,7 +286,7 @@ Prettier + ESLint son la autoridad: `pnpm format` y `pnpm lint` antes de cada co
 ### Crear o cambiar una tabla
 
 ```bash
-cd citalis_back/services/<servicio>
+cd apps/api/services/<servicio>
 # 1. edita prisma/schema.prisma (modelos con @@map("tabla") y @@schema("<schema>"))
 # 2. crea y aplica la migración en TU base de desarrollo:
 pnpm prisma:dev --name descripcion_corta_del_cambio

@@ -17,4 +17,4 @@ Expediente de liberación (enunciado §6, hito H7 · 7–11 dic). El keystore y 
 
 ## Backend en producción
 
-Despliegue (hosting con HTTPS, rúbrica S2) y variables de entorno requeridas: ver [`citalis_back/README.md`](../../citalis_back/README.md) y [`docs/backend/guia-de-trabajo.md`](../backend/guia-de-trabajo.md#15-decisiones-pendientes). _(Completar con la plataforma elegida.)_
+Despliegue (hosting con HTTPS, rúbrica S2) y variables de entorno requeridas: ver [`apps/api/README.md`](../../apps/api/README.md) y [`docs/backend/guia-de-trabajo.md`](../backend/guia-de-trabajo.md#15-decisiones-pendientes). _(Completar con la plataforma elegida.)_
